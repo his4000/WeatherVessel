@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WeathervesselApplication {
 
 	public static void main(String[] args) {
+		
 		SpringApplication.run(WeathervesselApplication.class, args);
+		System.out.println("Hello Spring");
 	}
 }
