@@ -22,7 +22,7 @@ jar {
 	version = version
 	archiveName = 'WeatherVessel.jar'
 	manifest {
-		attributes 'Main-Class': 'com.capstonedesign.weathervessel.WeatherVesselApplication',
+		attributes 'Main-Class': 'com.capstonedesign.weathervessel.WeathervesselApplication',
 				'Implementation-Title': 'WebService',
 				'Implementation-Version': version
 	}
@@ -32,7 +32,6 @@ jar {
 repositories {
 	mavenCentral()
 }
-
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
