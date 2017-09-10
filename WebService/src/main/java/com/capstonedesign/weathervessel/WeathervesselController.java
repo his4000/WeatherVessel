@@ -14,4 +14,9 @@ public class WeathervesselController {
     public String hello(){
         return this.hello;
     }
+
+    @RequestMapping("/keyboard")
+    public String keyboard(){
+        return "{\"type\" : \"buttons\", \"buttons\" : [\"선택 1\", \"선택 2\", \"선택 3\"]}";
+    }
 }
