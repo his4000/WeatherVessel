@@ -19,4 +19,9 @@ public class WeathervesselController {
     public String keyboard(){
         return "{\"type\" : \"buttons\", \"buttons\" : [\"선택 1\", \"선택 2\", \"선택 3\"]}";
     }
+
+    @RequestMapping("/message")
+    public String reply(String user_key, String type, String content){
+        return "connection good";
+    }
 }
