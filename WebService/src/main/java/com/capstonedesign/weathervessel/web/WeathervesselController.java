@@ -1,8 +1,9 @@
 package com.capstonedesign.weathervessel.web;
 
-import com.capstonedesign.weathervessel.service.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,19 +22,23 @@ public class WeathervesselController {
     @RequestMapping("/keyboard")
     public String keyboard(){
         log.info("keyboard controller running");
-        return "{\"type\" : \"buttons\", \"buttons\" : [\"선택 1\", \"선택 2\", \"선택 3\"]}";
+
+        JSONObject keyboardObj = new JSONObject();
+        keyboardObj.put("type", "text");
+
+        return keyboardObj.toString();
     }
 
     @RequestMapping("/message")
-    public RequestMessage reply(String user_key) {
+    public String reply(@RequestBody JSONObject resObj) {
         log.info("message controller running");
 
-        RequestMessage requestMessage = new RequestMessage();
+        String userId = resObj.getString("user_key");
+        JSONObject pushObj = new JSONObject();
+        pushObj.put("user_key", userId);
+        pushObj.put("type", "text");
+        pushObj.put("content", "잘 들립니다.");
 
-        requestMessage.setUser_key(user_key);
-        requestMessage.setType("text");
-        requestMessage.setContent("잘 들립니다.");
-
-        return requestMessage;
+        return pushObj.toString();
     }
 }
