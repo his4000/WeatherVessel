@@ -1,5 +1,6 @@
-package com.capstonedesign.weathervessel;
+package com.capstonedesign.weathervessel.web;
 
+import com.capstonedesign.weathervessel.service.RequestMessage;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,13 @@ public class WeathervesselController {
     }
 
     @RequestMapping("/message")
-    public String reply(String user_key, String type, String content){
-        return "connection good";
+    public RequestMessage reply(String user_key) {
+        RequestMessage requestMessage = new RequestMessage();
+
+        requestMessage.setUser_key(user_key);
+        requestMessage.setType("text");
+        requestMessage.setContent("잘 들립니다.");
+
+        return requestMessage;
     }
 }

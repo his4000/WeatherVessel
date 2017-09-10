@@ -34,6 +34,8 @@ repositories {
 }
 
 dependencies {
+	compile('org.projectlombok:lombok:1.16.16')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('com.fasterxml.jackson.core:jackson-databind:2.7.2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
