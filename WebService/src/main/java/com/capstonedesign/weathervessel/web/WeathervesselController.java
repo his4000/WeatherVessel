@@ -33,12 +33,17 @@ public class WeathervesselController {
     public String reply(@RequestBody JSONObject resObj) {
         log.info("message controller running");
 
-        String userId = resObj.getString("user_key");
-        JSONObject pushObj = new JSONObject();
-        pushObj.put("user_key", userId);
-        pushObj.put("type", "text");
-        pushObj.put("content", "잘 들립니다.");
+       String content;
+       content = (String) resObj.get("content");
+       JSONObject jsonRes = new JSONObject();
+       JSONObject jsonText = new JSONObject();
 
-        return pushObj.toString();
+       if(content != null)
+           jsonText.put("text", "잘 들려요");
+       else
+           jsonText.put("text", "뭐라구요? 잘 안들려요");
+       jsonRes.put("message", jsonText);
+
+        return jsonRes.toString();
     }
 }
