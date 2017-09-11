@@ -1,5 +1,8 @@
 package com.capstonedesign.weathervessel.web;
 
+import com.capstonedesign.weathervessel.service.Message;
+import com.capstonedesign.weathervessel.service.RequestMessage;
+import com.capstonedesign.weathervessel.service.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -27,24 +30,35 @@ public class WeathervesselController {
         return keyboardObj.toString();
     }
 
-    @RequestMapping(value = "/message", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/message", method = RequestMethod.POST)
+    public ResponseMessage message(@RequestBody RequestMessage requestMessage){
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        if(requestMessage.getContent().isEmpty())
+            responseMessage.setMessage(new Message("뭐라구요? 잘 안들려요"));
+        else
+            responseMessage.setMessage(new Message("잘 들려요"));
+
+        return responseMessage;
+    }
+
+    /*@RequestMapping(value = "/message", method = RequestMethod.POST, headers = "Accept=application/json")
     @ResponseBody
     public String reply(@RequestBody JSONObject resObj) throws Exception {
         log.info("message controller running");
         log.info("resObj : " + resObj.toString());
 
-        //String content;
-        //content = (String) resObj.get("content");
+        String content;
+        content = (String) resObj.get("content");
         JSONObject jsonRes = new JSONObject();
         JSONObject jsonText = new JSONObject();
 
-        /*if(content != null)
+        if(content != null)
             jsonText.put("text", "잘 들려요");
         else
-            jsonText.put("text", "뭐라구요? 잘 안들려요");*/
-        jsonText.put("text", "잘 들려요");
+            jsonText.put("text", "뭐라구요? 잘 안들려요");
         jsonRes.put("message", jsonText);
 
         return jsonRes.toString();
-    }
+    }*/
 }
