@@ -31,17 +31,18 @@ public class WeathervesselController {
     @ResponseBody
     public String reply(@RequestBody JSONObject resObj) {
         log.info("message controller running");
+        log.info("resObj : " + resObj.toString());
 
-       String content;
-       content = (String) resObj.get("content");
-       JSONObject jsonRes = new JSONObject();
-       JSONObject jsonText = new JSONObject();
+        String content;
+        content = (String) resObj.get("content");
+        JSONObject jsonRes = new JSONObject();
+        JSONObject jsonText = new JSONObject();
 
-       if(content != null)
-           jsonText.put("text", "잘 들려요");
-       else
-           jsonText.put("text", "뭐라구요? 잘 안들려요");
-       jsonRes.put("message", jsonText);
+        if(content != null)
+            jsonText.put("text", "잘 들려요");
+        else
+            jsonText.put("text", "뭐라구요? 잘 안들려요");
+        jsonRes.put("message", jsonText);
 
         return jsonRes.toString();
     }
