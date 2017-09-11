@@ -3,9 +3,7 @@ package com.capstonedesign.weathervessel.web;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @EnableAutoConfiguration
@@ -19,7 +17,7 @@ public class WeathervesselController {
         return this.hello;
     }
 
-    @RequestMapping("/keyboard")
+    @RequestMapping(value = "/keyboard", method = RequestMethod.GET)
     public String keyboard(){
         log.info("keyboard controller running");
 
@@ -29,7 +27,8 @@ public class WeathervesselController {
         return keyboardObj.toString();
     }
 
-    @RequestMapping("/message")
+    @RequestMapping(value = "/message", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
     public String reply(@RequestBody JSONObject resObj) {
         log.info("message controller running");
 
