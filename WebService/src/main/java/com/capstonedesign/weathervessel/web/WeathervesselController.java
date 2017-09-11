@@ -28,6 +28,7 @@ public class WeathervesselController {
     }
 
     @RequestMapping(value = "/message", method = RequestMethod.POST, headers = "Accept=application/json")
+    @ResponseBody
     public String reply(@RequestBody JSONObject resObj) throws Exception {
         log.info("message controller running");
         log.info("resObj : " + resObj.toString());
