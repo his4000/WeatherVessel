@@ -8,6 +8,13 @@ import org.json.JSONObject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
 @RestController
 @EnableAutoConfiguration
 @Slf4j
@@ -33,13 +40,49 @@ public class WeathervesselController {
     @RequestMapping(value = "/message", method = RequestMethod.POST)
     public ResponseMessage message(@RequestBody RequestMessage requestMessage){
         ResponseMessage responseMessage = new ResponseMessage();
+        String result = "";
 
         log.info(requestMessage.toString());
 
         if(requestMessage.getContent().isEmpty())
             responseMessage.setMessage(new Message("뭐라구요? 잘 안들려요"));
-        else
-            responseMessage.setMessage(new Message("잘 들려요"));
+
+        else {
+            try {
+                String text = URLEncoder.encode(requestMessage.getContent(), "UTF-8");
+                String apiURL = "http://localhost:8091/getText";
+                URL url = new URL(apiURL);
+                HttpURLConnection con = (HttpURLConnection)url.openConnection();
+                con.setRequestMethod("POST");
+
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                wr.writeBytes(text);
+                wr.flush();
+                wr.close();
+
+                int responseCode = con.getResponseCode();
+                log.info("Response Code : " + String.valueOf(responseCode));
+
+                BufferedReader br;
+                if(responseCode == 200)
+                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                else
+                    br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+
+                result = br.readLine();
+                br.close();
+
+            } catch (Exception e) {}
+        }
+
+        if(result.equals("")) {
+            responseMessage.setMessage(new Message("적당한 대답이 오지 않았어요"));
+            log.info("No Answer");
+        }
+        else {
+            responseMessage.setMessage(new Message(result));
+            log.info(result);
+        }
 
         return responseMessage;
     }
