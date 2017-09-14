@@ -1,0 +1,6 @@
+@relation KakaobotLearningDataSet
+
+@attribute class {forecast,current,monitoring}
+@attribute text string
+
+@data

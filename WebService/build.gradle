@@ -34,6 +34,7 @@ repositories {
 }
 
 dependencies {
+	compile('com.kakao.sdk:kakaotalk:project.KAKAO_SDK_VERSION')
 	compile('org.projectlombok:lombok:1.16.16')
 	compile('org.json:json:20170516')
 	compile('org.springframework.boot:spring-boot-starter-web')

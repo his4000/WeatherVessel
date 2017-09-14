@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/KakaobotLearning.iml" filepath="$PROJECT_DIR$/KakaobotLearning.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KakaobotLearning_main.iml" filepath="$PROJECT_DIR$/.idea/modules/KakaobotLearning_main.iml" group="KakaobotLearning" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KakaobotLearning_test.iml" filepath="$PROJECT_DIR$/.idea/modules/KakaobotLearning_test.iml" group="KakaobotLearning" />
+    </modules>
+  </component>
+</project>
