@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c29d0009-b635-4a70-8523-650f24ed0ba4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebService/src/main/java/com/capstonedesign/weathervessel/service/RequestMessage.java" afterPath="$PROJECT_DIR$/../WebService/src/main/java/com/capstonedesign/weathervessel/service/RequestMessage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebService/src/main/java/com/capstonedesign/weathervessel/web/WeathervesselController.java" afterPath="$PROJECT_DIR$/../WebService/src/main/java/com/capstonedesign/weathervessel/web/WeathervesselController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -996,7 +995,7 @@
       <workItem from="1505353757734" duration="5604000" />
       <workItem from="1505364808106" duration="283000" />
       <workItem from="1505365101237" duration="1437000" />
-      <workItem from="1505425091236" duration="15747000" />
+      <workItem from="1505425091236" duration="15978000" />
     </task>
     <servers />
   </component>
@@ -1006,7 +1005,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23071000" />
+    <option name="totallyTimeSpent" value="23302000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
