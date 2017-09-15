@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c29d0009-b635-4a70-8523-650f24ed0ba4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebService/src/main/java/com/capstonedesign/weathervessel/service/RequestMessage.java" afterPath="$PROJECT_DIR$/../WebService/src/main/java/com/capstonedesign/weathervessel/service/RequestMessage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebService/src/main/java/com/capstonedesign/weathervessel/web/WeathervesselController.java" afterPath="$PROJECT_DIR$/../WebService/src/main/java/com/capstonedesign/weathervessel/web/WeathervesselController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />

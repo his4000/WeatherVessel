@@ -40,6 +40,8 @@ public class WeathervesselController {
     public ResponseMessage message(@RequestBody RequestMessage requestMessage){
         ResponseMessage responseMessage = new ResponseMessage();
         String result = "";
+        String content = requestMessage.getContent();
+        log.info("make text" + content);
 
         log.info(requestMessage.toString());
 
@@ -51,8 +53,6 @@ public class WeathervesselController {
         else {
             try {
                 log.info("http start");
-                String text = requestMessage.getContent();
-                log.info("make text" + text);
                 String apiURL = "http://localhost:8091/getText";
                 log.info("make url");
                 URL url = new URL(apiURL);
@@ -66,7 +66,7 @@ public class WeathervesselController {
                 log.info("set do output");
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                 log.info("make output stream");
-                wr.writeBytes(text);
+                wr.writeBytes(content);
                 log.info("write bytes");
                 wr.flush();
                 log.info("flush");
