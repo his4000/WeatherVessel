@@ -18,6 +18,11 @@ public class ReplyController {
     @Autowired
     QuestionsRepository questionsRepository;
 
+    @RequestMapping(value = "/getText", method = RequestMethod.GET)
+    public String index(){
+        return "index";
+    }
+
     @RequestMapping(value = "/getText", method = RequestMethod.POST)
     public String getText(@RequestBody String text) throws Exception {
         Brain brain = new Brain();
