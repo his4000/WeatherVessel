@@ -51,30 +51,51 @@ public class WeathervesselController {
 
         else {
             try {
+                log.info("http start");
                 String text = URLEncoder.encode(requestMessage.getContent(), "UTF-8");
+                log.info("make text");
                 String apiURL = "http://localhost:8091/getText";
+                log.info("make url");
                 URL url = new URL(apiURL);
+                log.info("make url instance");
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();
+                log.info("make http connection");
                 con.setRequestMethod("POST");
+                log.info("set post");
 
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                log.info("make output stream");
                 wr.writeBytes(text);
+                log.info("write bytes");
                 wr.flush();
+                log.info("flush");
                 wr.close();
+                log.info("close");
 
                 int responseCode = con.getResponseCode();
                 log.info("Response Code : " + String.valueOf(responseCode));
 
                 BufferedReader br;
-                if(responseCode == 200)
+                log.info("make buffered reader");
+                if(responseCode == 200) {
+                    log.info("response code is 200");
                     br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                else
+                    log.info("make buffered reader for input");
+                }
+                else {
+                    log.info("response code is others");
                     br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                    log.info("make buffered reader for error");
+                }
 
                 result = br.readLine();
+                log.info("read line");
                 br.close();
+                log.info("closing");
 
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                log.info("Exception occurred");
+            }
         }
 
         if(result.equals("")) {
