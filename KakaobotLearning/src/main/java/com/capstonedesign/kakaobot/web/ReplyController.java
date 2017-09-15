@@ -6,10 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 
@@ -21,15 +18,9 @@ public class ReplyController {
     @Autowired
     QuestionsRepository questionsRepository;
 
-    @RequestMapping(value = "/getText", method = RequestMethod.GET)
+    @RequestMapping(value = "/getText")
     @ResponseBody
-    public String index(){
-        return "index";
-    }
-
-    @RequestMapping(value = "/getText", method = RequestMethod.POST)
-    @ResponseBody
-    public String getText(@RequestBody String textToken) throws Exception {
+    public String getText(@RequestParam String textToken) throws Exception {
         Brain brain = new Brain();
         log.info("get text token : " + textToken);
         String content;
