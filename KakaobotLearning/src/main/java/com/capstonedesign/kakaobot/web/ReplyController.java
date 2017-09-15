@@ -17,6 +17,7 @@ public class ReplyController {
 
     @Autowired
     QuestionsRepository questionsRepository;
+    Brain brain;
 
     @RequestMapping(value = "/getText", method = RequestMethod.GET)
     @ResponseBody
@@ -27,7 +28,7 @@ public class ReplyController {
     @RequestMapping(value = "/getText", method = RequestMethod.POST)
     @ResponseBody
     public String getText(@RequestBody String textToken) throws Exception {
-        Brain brain = new Brain();
+        brain = new Brain();
         log.info("get text token : " + textToken);
         String content;
         try{
