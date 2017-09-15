@@ -1,6 +1,7 @@
 package com.capstonedesign.kakaobot.service;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayesMultinomialText;
 import weka.core.*;
@@ -14,6 +15,7 @@ import java.util.Vector;
  * This part like a brain in machine learning
  * *****/
 @Getter
+@Slf4j
 public class Brain {
 
     private final ArrayList<Attribute> allAttr;
@@ -79,9 +81,10 @@ public class Brain {
 
         instance.setValue(this.allAttr.get(1), text);
         instance.setDataset(this.dataSet);
+        this.classifier.buildClassifier(this.dataSet);
 
         if(observe)
-            Arrays.stream(this.classifier.distributionForInstance(instance)).forEach(probablity -> System.out.println(probablity));
+            Arrays.stream(this.classifier.distributionForInstance(instance)).forEach(probablity -> log.info(String.valueOf(probablity)));
 
         return this.fvAttr.get((int)this.classifier.classifyInstance(instance));
     }
