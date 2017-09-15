@@ -16,7 +16,7 @@ public class LearningController {
     @Autowired
     QuestionsRepository questionsRepository;
 
-    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(){
         return "index";
     }

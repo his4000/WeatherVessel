@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c29d0009-b635-4a70-8523-650f24ed0ba4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/capstonedesign/kakaobot/KakaobotApplicationTests.java" afterPath="$PROJECT_DIR$/src/test/java/com/capstonedesign/kakaobot/KakaobotApplicationTests.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/web/LearningController.java" afterPath="$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/web/LearningController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -62,7 +62,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KakaobotApplicationTests.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="KakaobotApplicationTests.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/capstonedesign/kakaobot/KakaobotApplicationTests.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="228">
@@ -152,15 +152,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LearningController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LearningController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/web/LearningController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="23" column="41" lean-forward="false" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+            <state relative-caret-position="304">
+              <caret line="16" column="44" lean-forward="true" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#754#755#0" expanded="true" />
-                <element signature="e#784#785#0" expanded="true" />
+                <element signature="e#753#754#0" expanded="true" />
+                <element signature="e#783#784#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -615,8 +615,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/web/ReplyController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/service/Brain.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/web/LearningController.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/capstonedesign/kakaobot/KakaobotApplicationTests.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/web/LearningController.java" />
       </list>
     </option>
   </component>
@@ -983,12 +983,12 @@
       <workItem from="1505353757734" duration="5604000" />
       <workItem from="1505364808106" duration="283000" />
       <workItem from="1505365101237" duration="1437000" />
-      <workItem from="1505425091236" duration="11209000" />
+      <workItem from="1505425091236" duration="11494000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18533000" />
+    <option name="totallyTimeSpent" value="18818000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1385,18 +1385,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/web/LearningController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="23" column="41" lean-forward="false" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#754#755#0" expanded="true" />
-            <element signature="e#784#785#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/capstonedesign/kakaobot/KakaobotApplicationTests.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -1405,6 +1393,18 @@
             <element signature="imports" expanded="true" />
             <element signature="e#475#476#0" expanded="true" />
             <element signature="e#506#507#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/capstonedesign/kakaobot/web/LearningController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="16" column="44" lean-forward="true" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#753#754#0" expanded="true" />
+            <element signature="e#783#784#0" expanded="true" />
           </folding>
         </state>
       </provider>
