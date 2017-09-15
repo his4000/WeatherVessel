@@ -7,6 +7,7 @@ import weka.core.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Vector;
 
 /*****
  * This is the most important part of Kakaobot learning
@@ -20,7 +21,7 @@ public class Brain {
     private final int numClassType = 3;
     private final int maxDataSet = 10000;
     private Instances dataSet;
-    private FastVector fvAttr;
+    private Vector<String> fvAttr;
     private NaiveBayesMultinomialText classifier;
     private Evaluation evaluation;
 
@@ -32,14 +33,14 @@ public class Brain {
     }
 
     private void createAttributes() {
-        this.fvAttr = new FastVector(this.numClassType);
+        this.fvAttr = new Vector<>(this.numClassType);
 
         fvAttr.addElement("forecast");
         fvAttr.addElement("current");
         fvAttr.addElement("monitoring");
 
         allAttr.add(new Attribute("class", fvAttr));
-        allAttr.add(new Attribute("text", (FastVector)null));
+        allAttr.add(new Attribute("text", (Vector<String>)null));
     }
 
     private void createDataSet() {
@@ -82,7 +83,7 @@ public class Brain {
         if(observe)
             Arrays.stream(this.classifier.distributionForInstance(instance)).forEach(probablity -> System.out.println(probablity));
 
-        return this.fvAttr.get((int)this.classifier.classifyInstance(instance)).toString();
+        return this.fvAttr.get((int)this.classifier.classifyInstance(instance));
     }
 }
 
