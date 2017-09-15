@@ -13,6 +13,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 
 @RestController
@@ -70,7 +71,7 @@ public class WeathervesselController {
                 log.info("set do output");
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                 log.info("make output stream");
-                wr.writeBytes(content);
+                wr.writeBytes(textToken);
                 log.info("write bytes");
                 wr.flush();
                 log.info("flush");
