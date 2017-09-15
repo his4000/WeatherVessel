@@ -44,8 +44,10 @@ public class WeathervesselController {
 
         log.info(requestMessage.toString());
 
-        if(requestMessage.getContent().isEmpty())
+        if(requestMessage.getContent().isEmpty()) {
+            log.info("getContent is empty");
             responseMessage.setMessage(new Message("뭐라구요? 잘 안들려요"));
+        }
 
         else {
             try {
