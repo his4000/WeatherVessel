@@ -52,7 +52,7 @@ public class WeathervesselController {
         else {
             try {
                 log.info("http start");
-                String text = URLEncoder.encode(requestMessage.getContent(), "UTF-8");
+                String text = requestMessage.getContent();
                 log.info("make text" + text);
                 String apiURL = "http://localhost:8091/getText";
                 log.info("make url");
