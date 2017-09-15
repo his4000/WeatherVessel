@@ -13,6 +13,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 @RestController
 @EnableAutoConfiguration
@@ -41,6 +42,7 @@ public class WeathervesselController {
         ResponseMessage responseMessage = new ResponseMessage();
         String result = "";
         String content = requestMessage.getContent();
+        String textToken;
         log.info("make text" + content);
 
         log.info(requestMessage.toString());
@@ -53,6 +55,8 @@ public class WeathervesselController {
         else {
             try {
                 log.info("http start");
+                textToken = URLEncoder.encode(content, "UTF-8");
+                log.info("text token : " + textToken);
                 String apiURL = "http://localhost:8091/getText";
                 log.info("make url");
                 URL url = new URL(apiURL);
