@@ -40,6 +40,8 @@ public class ReplyController {
 
         String result = brain.predictUnknownCase(content, false);
 
+        log.info("result : " + result);
+
         return result;
         /*String replyService = brain.predictUnknownCase(text, false);
 
