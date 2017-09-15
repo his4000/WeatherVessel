@@ -63,6 +63,8 @@ public class WeathervesselController {
                 con.setRequestMethod("POST");
                 log.info("set post");
 
+                con.setDoOutput(true);
+                log.info("set do output");
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                 log.info("make output stream");
                 wr.writeBytes(text);
