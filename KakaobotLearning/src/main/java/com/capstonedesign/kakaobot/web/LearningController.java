@@ -10,19 +10,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/learning")
 @EnableAutoConfiguration
 public class LearningController {
 
     @Autowired
     QuestionsRepository questionsRepository;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/index", method = RequestMethod.POST)
     public String index(){
         return "index";
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/learning", method = RequestMethod.GET)
     public String postLearning(@RequestParam("rdb") String radio, @RequestParam("text") String text){
 
         questionsRepository.save(new Questions(radio, text));
