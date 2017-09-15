@@ -26,7 +26,7 @@ public class ReplyController {
 
     @RequestMapping(value = "/getText", method = RequestMethod.POST)
     @ResponseBody
-    public String getText(@RequestParam String textToken) throws Exception {
+    public String getText(@RequestBody String textToken) throws Exception {
         Brain brain = new Brain();
         log.info("get text token : " + textToken);
         String content;
