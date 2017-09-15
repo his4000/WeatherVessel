@@ -18,7 +18,13 @@ public class ReplyController {
     @Autowired
     QuestionsRepository questionsRepository;
 
-    @RequestMapping(value = "/getText")
+    @RequestMapping(value = "/getText", method = RequestMethod.GET)
+    @ResponseBody
+    public String index(){
+        return "index";
+    }
+
+    @RequestMapping(value = "/getText", method = RequestMethod.POST)
     @ResponseBody
     public String getText(@RequestParam String textToken) throws Exception {
         Brain brain = new Brain();
