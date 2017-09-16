@@ -20,10 +20,12 @@ import java.net.URLEncoder;
 @Slf4j
 public class WeathervesselController {
 
-    private String hello = "Project Weather Vessel for Capstone Design 2 class in Konkuk Univ. Department of Computer Science Engineering - KIM MIN SU, LEE CHANG OH, CHO YOON KI";
+    private String hello;
+    private String learningServerURL;
 
     @RequestMapping("/")
     public String hello(){
+        hello = "Project Weather Vessel for Capstone Design 2 class in Konkuk Univ. Department of Computer Science Engineering - KIM MIN SU, LEE CHANG OH, CHO YOON KI";
         return this.hello;
     }
 
@@ -43,6 +45,7 @@ public class WeathervesselController {
         String result = "";
         String content = requestMessage.getContent();
         String textToken;
+        learningServerURL = "http://ec2-52-78-20-141.ap-northeast-2.compute.amazonaws.com:8090/getText";
         log.info("make text" + content);
 
         log.info(requestMessage.toString());
@@ -57,9 +60,7 @@ public class WeathervesselController {
                 log.info("http start");
                 textToken = URLEncoder.encode(content, "UTF-8");
                 log.info("text token : " + textToken);
-                String apiURL = "http://localhost:8091/getText";
-                log.info("make url");
-                URL url = new URL(apiURL);
+                URL url = new URL(learningServerURL);
                 log.info("make url instance");
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();
                 log.info("make http connection");
