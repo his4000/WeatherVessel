@@ -1,10 +1,13 @@
 package com.capstonedesign.kakaobot.web;
 
+import com.capstonedesign.kakaobot.domain.Questions;
+import com.capstonedesign.kakaobot.domain.QuestionsRepository;
 import com.capstonedesign.kakaobot.service.Message;
 import com.capstonedesign.kakaobot.service.RequestMessage;
 import com.capstonedesign.kakaobot.service.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @EnableAutoConfiguration
 @Slf4j
 public class DataCollectingController {
+
+    @Autowired
+    QuestionsRepository questionsRepository;
 
     @RequestMapping(value = "/keyboard", method = RequestMethod.GET)
     @ResponseBody
@@ -36,8 +42,10 @@ public class DataCollectingController {
 
         if(content.equals(""))
             responseMessage.setMessage(new Message("질문이 도착하지 않았어요. 질문을 다시 보내주세요"));
-        else
+        else {
+            questionsRepository.save(new Questions("notype", content));
             responseMessage.setMessage(new Message("질문을 보내주셔서 정말 감사합니다."));
+        }
 
         return responseMessage;
     }
