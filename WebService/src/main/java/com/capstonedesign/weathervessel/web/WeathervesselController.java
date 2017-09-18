@@ -57,47 +57,29 @@ public class WeathervesselController {
 
         else {
             try {
-                log.info("http start");
                 textToken = URLEncoder.encode(content, "UTF-8");
-                log.info("text token : " + textToken);
                 URL url = new URL(learningServerURL);
-                log.info("make url instance");
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                log.info("make http connection");
                 con.setRequestMethod("POST");
-                log.info("set post");
 
                 con.setDoOutput(true);
-                log.info("set do output");
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                log.info("make output stream");
                 wr.writeBytes(textToken);
-                log.info("write bytes");
                 wr.flush();
-                log.info("flush");
                 wr.close();
-                log.info("close");
 
                 int responseCode = con.getResponseCode();
-                log.info("Response Code : " + String.valueOf(responseCode));
 
                 BufferedReader br;
-                log.info("make buffered reader");
                 if(responseCode == 200) {
-                    log.info("response code is 200");
                     br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    log.info("make buffered reader for input");
                 }
                 else {
-                    log.info("response code is others");
                     br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-                    log.info("make buffered reader for error");
                 }
 
                 result = br.readLine();
-                log.info("read line");
                 br.close();
-                log.info("closing");
 
             } catch (Exception e) {
                 log.info("Exception occurred");
@@ -110,7 +92,7 @@ public class WeathervesselController {
         }
         else {
             responseMessage.setMessage(new Message(result));
-            log.info(result);
+            log.info("Answer : " + result);
         }
 
         return responseMessage;

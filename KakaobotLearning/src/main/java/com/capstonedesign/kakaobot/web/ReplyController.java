@@ -31,7 +31,7 @@ public class ReplyController {
             log.info("Exception occurred when decoding text token");
         }
 
-        String result = brain.predictUnknownCase(content, false);
+        String result = brain.predictUnknownCase(content, true);
 
         log.info("result : " + result);
 
