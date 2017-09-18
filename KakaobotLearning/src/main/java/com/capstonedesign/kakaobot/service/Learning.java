@@ -18,7 +18,7 @@ import java.util.List;
 public class Learning {
 
     private int count;
-    private final long batchTime = 5;
+    private final long batchTime = 1;
     private Brain brain;
     private final String saveFilePath = "./DataSetBackUp.arff";
 
@@ -31,7 +31,7 @@ public class Learning {
     }
 
 
-    //@Scheduled(fixedRate = batchTime * 60 * 1000)
+    @Scheduled(fixedRate = batchTime * 60 * 1000)
     public void executeLearning() {
         List<Questions> questions = questionsRepository.findByIdGreaterThan(count);
         ArffSaver saver = new ArffSaver();

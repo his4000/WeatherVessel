@@ -1,6 +1,18 @@
 @relation KakaobotLearningDataSet
 
-@attribute class {forecast,current,monitoring}
+@attribute class {forecast,current,monitoring,notype}
 @attribute text string
 
 @data
+current,'지금 어때'
+current,'지금 미세먼지 농도 어때?'
+current,지금
+notype,미세미세!
+forecast,'오늘은 미세먼지가 많니?'
+notype,알려달란말야
+notype,(이모티콘)
+current,'지금 공기는 어때?'
+notype,황토황토하니?
+notype,텁텁해?
+notype,'내일 미세먼지 농도'
+notype,'오늘 마스크를 해야할까?'

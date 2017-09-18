@@ -32,7 +32,7 @@ public class BrainTest {
     @Test
     public void predictUnknownCaseTest(){
         try {
-            Assert.assertEquals("forecast", brain.predictUnknownCase("오늘 날씨가 어때", false));
+            Assert.assertEquals("current", brain.predictUnknownCase("지금 어때", false));
             Assert.assertNotEquals("current", brain.predictUnknownCase("오늘 날씨가 어때", false));
             Assert.assertNotEquals("monitoring", brain.predictUnknownCase("오늘 날씨가 어때", false));
         } catch (Exception e) {
