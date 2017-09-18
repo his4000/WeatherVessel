@@ -1,32 +1,24 @@
 package com.capstonedesign.kakaobot.web;
 
-import com.capstonedesign.kakaobot.domain.QuestionsRepository;
 import com.capstonedesign.kakaobot.service.Brain;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 
-@Controller
+@RestController
 @EnableAutoConfiguration
 @Slf4j
 public class ReplyController {
-
-    @Autowired
-    QuestionsRepository questionsRepository;
-    Brain brain;
+    private Brain brain;
 
     @RequestMapping(value = "/getText", method = RequestMethod.GET)
-    @ResponseBody
     public String index(){
         return "index";
     }
 
     @RequestMapping(value = "/getText", method = RequestMethod.POST)
-    @ResponseBody
     public String getText(@RequestBody String textToken) throws Exception {
         brain = new Brain();
         log.info("get text token : " + textToken);

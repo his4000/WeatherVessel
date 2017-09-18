@@ -18,6 +18,8 @@ public class Questions {
     @Column
     private String text;
 
+    public Questions() {}
+
     public Questions(String classType, String text){
         this.classType = classType;
         this.text = text;

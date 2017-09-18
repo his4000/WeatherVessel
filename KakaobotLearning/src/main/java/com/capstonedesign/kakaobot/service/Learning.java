@@ -31,7 +31,7 @@ public class Learning {
     }
 
 
-    @Scheduled(fixedRate = batchTime * 60 * 1000)
+    //@Scheduled(fixedRate = batchTime * 60 * 1000)
     public void executeLearning() {
         List<Questions> questions = questionsRepository.findByIdGreaterThan(count);
         ArffSaver saver = new ArffSaver();

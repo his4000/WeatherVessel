@@ -19,11 +19,13 @@ public class DataMonitoringController {
     @Autowired
     QuestionsRepository questionsRepository;
 
-    @RequestMapping(value = "monitor")
+    @RequestMapping(value = "/monitorPage")
     public ModelAndView monitoring(){
+        ModelAndView mv = new ModelAndView();
         List<Questions> questions = questionsRepository.findAll();
-        ModelAndView mv = new ModelAndView("questionList/questions");
+        log.info(questions.toString());
         mv.addObject("questions", questions);
+        mv.setViewName("monitor");
         return mv;
     }
 }

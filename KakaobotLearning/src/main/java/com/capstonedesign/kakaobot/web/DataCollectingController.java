@@ -9,13 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @EnableAutoConfiguration
 @Slf4j
 public class DataCollectingController {
@@ -24,7 +20,6 @@ public class DataCollectingController {
     QuestionsRepository questionsRepository;
 
     @RequestMapping(value = "/keyboard", method = RequestMethod.GET)
-    @ResponseBody
     public String keyboard(){
         log.info("keyboard controller running");
 
@@ -35,7 +30,6 @@ public class DataCollectingController {
     }
 
     @RequestMapping(value = "/message", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseMessage message(@RequestBody RequestMessage requestMessage){
         ResponseMessage responseMessage = new ResponseMessage();
         String content = requestMessage.getContent();
