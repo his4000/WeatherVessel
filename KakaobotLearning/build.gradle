@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.6.RELEASE'
+		springBootVersion = '1.5.7.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -17,30 +17,32 @@ apply plugin: 'org.springframework.boot'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
-jar {
-	baseName = 'WebService'
+/*jar {
+	baseName = 'KakaobotLearning'
 	version = version
-	archiveName = 'WeatherVessel.jar'
+	archiveName = 'KakaobotLearning.jar'
 	manifest {
-		attributes 'Main-Class': 'com.capstonedesign.weathervessel.WeathervesselApplication',
-				'Implementation-Title': 'WebService',
+		attributes 'Main-Class': 'com.capstonedesign.kakaobot.KakaobotApplication',
+				'Implementation-Title': 'KakaobotLearning',
 				'Implementation-Version': version
 	}
 	from { configurations.compile.collect {it.isDirectory() ? it : zipTree(it)} }
-}
+}*/
 
 repositories {
 	mavenCentral()
 }
 
+
 dependencies {
+	compile('nz.ac.waikato.cms.weka:weka-stable:3.8.0')
 	compile('org.projectlombok:lombok:1.16.16')
-	compile('org.json:json:20170516')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('com.fasterxml.jackson.core:jackson-databind:2.7.2')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile('org.json:json:20170516')
 	runtime('com.h2database:h2')
 	runtime('mysql:mysql-connector-java')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
