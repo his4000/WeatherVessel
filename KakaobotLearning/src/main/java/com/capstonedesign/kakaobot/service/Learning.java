@@ -19,6 +19,7 @@ public class Learning {
 
     private int count;
     private final long batchTime = 1;
+    @Autowired
     private Brain brain;
     private final String saveFilePath = "./DataSetBackUp.arff";
 
@@ -26,7 +27,6 @@ public class Learning {
     QuestionsRepository questionsRepository;
 
     public Learning(){
-        brain = new Brain();
         this.count = 0;
     }
 

@@ -2,6 +2,7 @@ package com.capstonedesign.kakaobot.service;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayesMultinomialText;
 import weka.core.*;
@@ -16,6 +17,7 @@ import java.util.Vector;
  * *****/
 @Getter
 @Slf4j
+@Service
 public class Brain {
 
     private final ArrayList<Attribute> allAttr;

@@ -2,6 +2,7 @@ package com.capstonedesign.kakaobot.web;
 
 import com.capstonedesign.kakaobot.service.Brain;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.net.URLDecoder;
 @EnableAutoConfiguration
 @Slf4j
 public class ReplyController {
+    @Autowired
     private Brain brain;
 
     @RequestMapping(value = "/getText", method = RequestMethod.GET)
@@ -20,7 +22,6 @@ public class ReplyController {
 
     @RequestMapping(value = "/getText", method = RequestMethod.POST)
     public String getText(@RequestBody String textToken) throws Exception {
-        brain = new Brain();
         log.info("get text token : " + textToken);
         String content;
         try{
