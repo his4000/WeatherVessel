@@ -31,11 +31,13 @@ public class KeywordModel {
         try{
             getKeyword(keywords, keyword).addProb(attrIndex);
         }catch (NoSuchElementException e){
-            Keyword tmp = new Keyword(keyword);
-            tmp.addProb(attrIndex);
-            keywords.add(tmp);
-        }catch (IndexOutOfBoundsException ie){
-            log.info("Undefined enum value in KeywordModel");
+            if(attrIndex != -1) {
+                Keyword tmp = new Keyword(keyword);
+                tmp.addProb(attrIndex);
+                keywords.add(tmp);
+            }
+            else
+                log.info("Undefined enum value in KeywordModel");
         }
     }
 }
