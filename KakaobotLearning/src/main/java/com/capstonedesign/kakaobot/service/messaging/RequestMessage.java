@@ -1,4 +1,4 @@
-package com.capstonedesign.kakaobot.service;
+package com.capstonedesign.kakaobot.service.messaging;
 
 public class RequestMessage {
     private String user_key;

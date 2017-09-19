@@ -2,9 +2,9 @@ package com.capstonedesign.kakaobot.web;
 
 import com.capstonedesign.kakaobot.domain.Questions;
 import com.capstonedesign.kakaobot.domain.QuestionsRepository;
-import com.capstonedesign.kakaobot.service.Message;
-import com.capstonedesign.kakaobot.service.RequestMessage;
-import com.capstonedesign.kakaobot.service.ResponseMessage;
+import com.capstonedesign.kakaobot.service.messaging.Message;
+import com.capstonedesign.kakaobot.service.messaging.RequestMessage;
+import com.capstonedesign.kakaobot.service.messaging.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

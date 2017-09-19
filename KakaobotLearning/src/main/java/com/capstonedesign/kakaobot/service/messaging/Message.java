@@ -1,4 +1,4 @@
-package com.capstonedesign.kakaobot.service;
+package com.capstonedesign.kakaobot.service.messaging;
 
 import lombok.Data;
 
