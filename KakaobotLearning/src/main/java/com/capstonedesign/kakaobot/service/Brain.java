@@ -22,7 +22,7 @@ public class Brain {
 
     private final ArrayList<Attribute> allAttr;
     private final int numAttr = 2;
-    private final int numClassType = 4;
+    private final int numClassType = 3;
     private final int maxDataSet = 10000;
     private Instances dataSet;
     private Vector<String> fvAttr;
@@ -42,7 +42,6 @@ public class Brain {
         fvAttr.addElement("forecast");
         fvAttr.addElement("current");
         fvAttr.addElement("monitoring");
-        fvAttr.addElement("notype");
 
         allAttr.add(new Attribute("class", fvAttr));
         allAttr.add(new Attribute("text", (Vector<String>)null));
@@ -74,9 +73,11 @@ public class Brain {
     }
 
     public void refresh(String attr, String text) throws Exception {
-        addLearningData(attr, text);
-        refreshClassifier();
-        evaluateModel();
+        if(!attr.equals("notype")) {
+            addLearningData(attr, text);
+            refreshClassifier();
+            evaluateModel();
+        }
     }
 
     public String predictUnknownCase(String text, Boolean observe) throws Exception {
