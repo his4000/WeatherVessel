@@ -50,7 +50,8 @@ public class DataCollectingController {
             log.info(replyText);
             br.close();
         }catch (Exception e){
-            log.info("Reply message load error.\n" + e.getStackTrace());
+            log.info("Reply message load error.\n");
+            System.out.println(e.getStackTrace().toString());
             replyText = replyText + "[51/50] 자기 자신이 해낸 것을 즐기는 그리고 자기 자신이 하고 있는 것을 즐기는 사람은 행복한 사람이다. - 괴테" + "\n\n감사합니다.";
         }
 
