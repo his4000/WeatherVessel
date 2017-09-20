@@ -12,7 +12,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Random;
 
 @RestController
@@ -38,14 +39,14 @@ public class DataCollectingController {
         ResponseMessage responseMessage = new ResponseMessage();
         String content = requestMessage.getContent();
         String replyText = "질문을 보내주셔서 정말 감사합니다. \n\n 답례로 좋은 글 하나 소개해 드릴게요.\n\n";
-        String messageFilePath = "./src/main/resources/static/replyMessage/text";
+        String messageFilePath = "../../src/main/resources/static/replyMessage/text";
         Random random = new Random();
         int randomNumber = random.nextInt(50) + 1;
 
         messageFilePath = messageFilePath + String.valueOf(randomNumber) + ".txt";
         log.info("randomNumber : " + String.valueOf(randomNumber));
 
-        try(BufferedReader br = new BufferedReader(new FileReader(messageFilePath))){
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(messageFilePath), "UTF8"))){
             replyText = replyText + "[" + String.valueOf(randomNumber) + "/50]\n" + br.readLine() + "\n\n감사합니다.";
             log.info(replyText);
             br.close();
