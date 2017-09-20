@@ -46,6 +46,7 @@ public class DataCollectingController {
 
         try(BufferedReader br = new BufferedReader(new FileReader(messageFilePath))){
             replyText = replyText + "[" + String.valueOf(randomNumber) + "/50]\n" + br.readLine() + "\n\n감사합니다.";
+            log.info(replyText);
             br.close();
         }catch (Exception e){
             log.info("Reply message load error.");
