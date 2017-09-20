@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Random;
+
 @RestController
 @EnableAutoConfiguration
 @Slf4j
@@ -33,12 +37,26 @@ public class DataCollectingController {
     public ResponseMessage message(@RequestBody RequestMessage requestMessage){
         ResponseMessage responseMessage = new ResponseMessage();
         String content = requestMessage.getContent();
+        String replyText = "질문을 보내주셔서 정말 감사합니다. \n\n 답례로 좋은 글 하나 소개해 드릴게요.\n\n";
+        String messageFilePath = "./ReplyMessage/text";
+        Random random = new Random();
+        int randomNumber = random.nextInt(50) + 1;
+
+        messageFilePath = messageFilePath + String.valueOf(randomNumber) + ".txt";
+
+        try(BufferedReader br = new BufferedReader(new FileReader(messageFilePath))){
+            replyText = replyText + "[" + String.valueOf(randomNumber) + "/50]\n" + br.readLine() + "\n\n감사합니다.";
+            br.close();
+        }catch (Exception e){
+            log.info("Reply message load error.");
+            replyText = replyText + "[51/50] 당신의 내일을 응원합니다. - 운영진";
+        }
 
         if(content.equals(""))
             responseMessage.setMessage(new Message("질문이 도착하지 않았어요. 질문을 다시 보내주세요"));
         else {
             questionsRepository.save(new Questions("notype", content));
-            responseMessage.setMessage(new Message("질문을 보내주셔서 정말 감사합니다."));
+            responseMessage.setMessage(new Message(replyText));
         }
 
         return responseMessage;
