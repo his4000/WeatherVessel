@@ -38,6 +38,8 @@ public class KeywordModel {
             }
             else
                 log.info("Undefined enum value in KeywordModel");
+        }catch (IndexOutOfBoundsException ie){
+            log.info("Undefined enum vale in KeywordModel : Notype input");
         }
     }
 }
