@@ -49,7 +49,7 @@ public class DataCollectingController {
             log.info(replyText);
             br.close();
         }catch (Exception e){
-            log.info("Reply message load error.");
+            log.info("Reply message load error.\n" + e.getStackTrace());
             replyText = replyText + "[51/50] 당신의 내일을 응원합니다. - 운영진";
         }
 
