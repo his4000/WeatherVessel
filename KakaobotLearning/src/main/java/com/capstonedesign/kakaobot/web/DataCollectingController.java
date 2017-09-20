@@ -38,7 +38,7 @@ public class DataCollectingController {
         ResponseMessage responseMessage = new ResponseMessage();
         String content = requestMessage.getContent();
         String replyText = "질문을 보내주셔서 정말 감사합니다. \n\n 답례로 좋은 글 하나 소개해 드릴게요.\n\n";
-        String messageFilePath = "./ReplyMessage/text";
+        String messageFilePath = "./replyMessage/text";
         Random random = new Random();
         int randomNumber = random.nextInt(50) + 1;
 
