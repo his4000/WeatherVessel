@@ -43,6 +43,7 @@ public class DataCollectingController {
         int randomNumber = random.nextInt(50) + 1;
 
         messageFilePath = messageFilePath + String.valueOf(randomNumber) + ".txt";
+        log.info("randomNumber : " + String.valueOf(randomNumber));
 
         try(BufferedReader br = new BufferedReader(new FileReader(messageFilePath))){
             replyText = replyText + "[" + String.valueOf(randomNumber) + "/50]\n" + br.readLine() + "\n\n감사합니다.";
@@ -50,7 +51,7 @@ public class DataCollectingController {
             br.close();
         }catch (Exception e){
             log.info("Reply message load error.\n" + e.getStackTrace());
-            replyText = replyText + "[51/50] 당신의 내일을 응원합니다. - 운영진";
+            replyText = replyText + "[51/50] 자기 자신이 해낸 것을 즐기는 그리고 자기 자신이 하고 있는 것을 즐기는 사람은 행복한 사람이다. - 괴테" + "\n\n감사합니다.";
         }
 
         if(content.equals(""))
