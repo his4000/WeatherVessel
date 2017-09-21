@@ -33,4 +33,22 @@ public class LearningController {
 
         return "index";
     }
+
+    @RequestMapping(value = "/modifyIndex", method = RequestMethod.GET)
+    public String callModifyPage() {return "modifying";}
+
+    @RequestMapping(value = "/modify", method = RequestMethod.GET)
+    public String getModify(@RequestParam("intent") String intent, @RequestParam("number") String number) {
+        int numberInteger = Integer.parseInt(number);
+        Questions question = questionsRepository.findOne(numberInteger);
+
+        log.info("Modify controller called");
+
+        question.setClassType(intent);
+        questionsRepository.save(question);
+
+        log.info("Success to modify");
+
+        return "modifying";
+    }
 }

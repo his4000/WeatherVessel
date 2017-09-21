@@ -1,7 +1,9 @@
 package com.capstonedesign.kakaobot.web;
 
-import com.capstonedesign.kakaobot.service.Brain;
+import com.capstonedesign.kakaobot.KakaobotApplication;
+import com.capstonedesign.kakaobot.service.machine_learning.Prediction;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +13,8 @@ import java.net.URLDecoder;
 @EnableAutoConfiguration
 @Slf4j
 public class ReplyController {
-    private Brain brain;
+    @Autowired
+    private Prediction prediction;
 
     @RequestMapping(value = "/getText", method = RequestMethod.GET)
     public String index(){
@@ -20,7 +23,6 @@ public class ReplyController {
 
     @RequestMapping(value = "/getText", method = RequestMethod.POST)
     public String getText(@RequestBody String textToken) throws Exception {
-        brain = new Brain();
         log.info("get text token : " + textToken);
         String content;
         try{
@@ -31,7 +33,7 @@ public class ReplyController {
             log.info("Exception occurred when decoding text token");
         }
 
-        String result = brain.predictUnknownCase(content, false);
+        String result = prediction.executePrediciton(KakaobotApplication.keywords, content, true);
 
         log.info("result : " + result);
 
