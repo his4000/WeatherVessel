@@ -12,7 +12,7 @@ public class WebViewController {
 
     @RequestMapping(value = "/mapView")
     public String webViewing(){
-        return "map";
+        return "current";
     }
 
 }
