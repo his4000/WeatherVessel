@@ -35,7 +35,7 @@ public class LearningController {
     }
 
     @RequestMapping(value = "/modifyIndex", method = RequestMethod.GET)
-    public String callModiryPage() {return "modifying";}
+    public String callModifyPage() {return "modifying";}
 
     @RequestMapping(value = "/modify", method = RequestMethod.GET)
     public String getModify(@RequestParam("intent") String intent, @RequestParam("number") String number) {
