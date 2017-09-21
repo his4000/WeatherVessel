@@ -18,10 +18,9 @@ import java.net.URLEncoder;
 @RestController
 @EnableAutoConfiguration
 @Slf4j
-public class WeathervesselController {
+public class KakaoAPIController {
 
     private String hello;
-    private String learningServerURL;
 
     @RequestMapping("/")
     public String hello(){
@@ -44,8 +43,6 @@ public class WeathervesselController {
         ResponseMessage responseMessage = new ResponseMessage();
         String result = "";
         String content = requestMessage.getContent();
-        String textToken;
-        learningServerURL = "http://ec2-52-78-148-146.ap-northeast-2.compute.amazonaws.com:8090/getText";
         log.info("make text" + content);
 
         log.info(requestMessage.toString());
@@ -54,33 +51,9 @@ public class WeathervesselController {
             log.info("getContent is empty");
             responseMessage.setMessage(new Message("뭐라구요? 잘 안들려요"));
         }
-
         else {
             try {
-                textToken = URLEncoder.encode(content, "UTF-8");
-                URL url = new URL(learningServerURL);
-                HttpURLConnection con = (HttpURLConnection)url.openConnection();
-                con.setRequestMethod("POST");
-
-                con.setDoOutput(true);
-                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                wr.writeBytes(textToken);
-                wr.flush();
-                wr.close();
-
-                int responseCode = con.getResponseCode();
-
-                BufferedReader br;
-                if(responseCode == 200) {
-                    br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                }
-                else {
-                    br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-                }
-
-                result = br.readLine();
-                br.close();
-
+                result = classifying(content);
             } catch (Exception e) {
                 log.info("Exception occurred");
             }
@@ -96,5 +69,32 @@ public class WeathervesselController {
         }
 
         return responseMessage;
+    }
+
+    private String classifying(String encodedContent) throws Exception{
+        String textToken = URLEncoder.encode(encodedContent, "UTF-8");
+        String learningServerURL = "http://ec2-52-78-148-146.ap-northeast-2.compute.amazonaws.com:8090/getText";
+        String ret;
+        URL url = new URL(learningServerURL);
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.setRequestMethod("POST");
+
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(textToken);
+        wr.flush();
+        wr.close();
+        int responseCode = con.getResponseCode();
+
+        BufferedReader br;
+        if(responseCode == 200)
+            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        else
+            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+
+        ret = br.readLine();
+        br.close();
+
+        return ret;
     }
 }
