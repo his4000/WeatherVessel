@@ -25,7 +25,7 @@ public class DataMonitoringController {
         List<Questions> questions = questionsRepository.findAll();
         log.info(questions.toString());
         mv.addObject("questions", questions);
-        mv.setViewName("monitor");
+        mv.setViewName("dataMonitor");
         return mv;
     }
 }

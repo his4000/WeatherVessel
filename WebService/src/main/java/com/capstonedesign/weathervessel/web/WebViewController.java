@@ -12,7 +12,11 @@ public class WebViewController {
 
     @RequestMapping(value = "/mapView")
     public String webViewing(){
-        return "current";
+        return "monitor";
     }
 
+    @RequestMapping(value = "/currentView")
+    public String currentViewing(){
+        return "current";
+    }
 }

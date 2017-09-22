@@ -1,34 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Database Monitoring Page</title>
-    <style>
-        table{
-            width : 100%;
-        }
-        table, th, td {
-            border: 1px solid #bcbcbc;
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <title>Current Status</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=eNueqceuff0oFPhe5uZD&amp;submodules=geocoder"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
-<table id="userTable" class="table table-striped table-bordered table-hover">
-    <thead>
-    <tr>
-        <th>No</th>
-        <th>Type</th>
-        <th>Text</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="question : ${questions}">
-        <td th:text="${question.id}">No.</td>
-        <td th:text="${question.classType}">Type</td>
-        <td th:text="${question.text}">Text</td>
-    </tr>
-    </tbody>
-</table>
+<div id="wrap" class="section">
+    <div id="map" style="width:90%;height:600px;"></div>
+</div>
+<script>
+    var map = new naver.maps.Map("map", {
+        center: new naver.maps.LatLng(37.3595316, 127.1052133),
+        zoom: 10,
+        mapTypeControl: true
+    });
+    var infoWindow = new naver.maps.InfoWindow({
+        anchorSkew: true
+    });
 
+    function searchCoordinateToAddress(latlng) {
+        infoWindow.close();
+        naver.maps.Service.reverseGeocode({
+            "location":latlng
+        }, function (status, response) {
+            if(status == naver.maps.Service.Status.ERROR){
+                return alert('Something Wrong!');
+            }
+            var items = response.result.items,
+                addrList = [];
+
+            /*<![CDATA[*/
+            for(var i=0; i < items.length; i++) {
+                /*]]>*/
+                addrList.push(items[i].address);
+            }
+
+            infoWindow.setContent([
+                '<div style="padding;10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 좌표 : '+ response.result.userquery + '</h4><br/>',
+                addrList.join('<br/>'),
+                '</div>'
+            ].join('\n'));
+            infoWindow.open(map, latlng);
+        });
+    }
+    function initGeocoder() {
+        map.addListener('click', function (e) {
+            console.log(e.coord);
+            searchCoordinateToAddress(e.coord);
+        });
+    }
+    naver.maps.onJSContentLoaded = initGeocoder;
+</script>
 </body>
 </html>
