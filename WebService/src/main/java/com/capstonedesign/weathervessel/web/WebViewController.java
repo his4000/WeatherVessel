@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,7 +27,8 @@ public class WebViewController {
     {
         ModelAndView mv = new ModelAndView();
 
-        mv.addObject("latlng", "서울특별시 광진구 화양동");
+        mv.addObject("address", "서울특별시 광진구 화양동");
+        mv.addObject("time", getNowTime());
         mv.setViewName("monitor");
 
         return mv;
@@ -37,6 +39,7 @@ public class WebViewController {
         ModelAndView mv = new ModelAndView();
 
         mv.addObject("address", "서울특별시 광진구 화양동");
+        mv.addObject("time", getNowTime());
         mv.setViewName("current");
         return mv;
     }
@@ -84,5 +87,57 @@ public class WebViewController {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    private String getNowTime(){
+        LocalDateTime nowTime = LocalDateTime.now();
+        String year;
+        String month;
+        String day;
+        String hour;
+        String min;
+        boolean afternoon;
+        String time;
+
+        year = String.valueOf(nowTime.getYear());
+
+        if(nowTime.getMonthValue() > 9)
+            month = String.valueOf(nowTime.getMonthValue());
+        else
+            month = "0" + String .valueOf(nowTime.getMonthValue());
+
+        if(nowTime.getDayOfMonth() > 9)
+            day = String.valueOf(nowTime.getDayOfMonth());
+        else
+            day = "0" + String.valueOf(nowTime.getDayOfMonth());
+
+        if(nowTime.getHour() > 12){
+            afternoon = true;
+            if(nowTime.getHour() > 21)
+                hour = String.valueOf(nowTime.getHour() - 12);
+            else
+                hour = "0" + String.valueOf(nowTime.getHour() - 12);
+        }
+        else{
+            afternoon = false;
+            if(nowTime.getHour() > 9)
+                hour = String.valueOf(nowTime.getHour());
+            else
+                hour = "0" + String.valueOf(nowTime.getHour());
+        }
+
+        if(nowTime.getMinute() > 9)
+            min = String.valueOf(nowTime.getMinute());
+        else
+            min = "0" + String.valueOf(nowTime.getMinute());
+
+        time = year + "-" + month + "-" + day + " " + hour + ":" + min + " ";
+
+        if(afternoon)
+            time = time + "PM";
+        else
+            time = time + "AM";
+
+        return time;
     }
 }
