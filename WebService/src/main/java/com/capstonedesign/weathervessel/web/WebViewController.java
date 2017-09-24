@@ -19,4 +19,9 @@ public class WebViewController {
     public String currentViewing(){
         return "current";
     }
+
+    @RequestMapping(value = "/heatMapView")
+    public String heatMapViewing(){
+        return "heatMap";
+    }
 }
