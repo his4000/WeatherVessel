@@ -1,60 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Current Status</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+          crossorigin="anonymous"/>
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"/>
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"
+          th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap-theme.min.css}"/>
+    <link  rel="stylesheet"
+           href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=eNueqceuff0oFPhe5uZD&amp;submodules=geocoder"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
-<div id="wrap" class="section">
-    <div id="map" style="width:90%;height:600px;"></div>
+<div class="container-fluid bg-primary">
+    <div class="row align-items-center">
+        <div class="col"></div>
+        <div class="col-8">
+            <div class="row">
+                <h1 class="display-4 text-center"> </h1>
+            </div>
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <h1 class="display-4 text-center" style="font-weight: bold;">서울특별시 광진구 화양동</h1>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <h1 class="display-4 text-center">2017-09-22 12:08 PM</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col" th:align="center">
+            <a th:href="currentView" class="material-icons" style="font-size:60px;color:white;">mood</a>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col" th:align="center">
+            <div id="map" style="width: 500px; height: 500px;"></div>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-3"></div>
+        <div class="col" th:align="center">
+            <h1 class="display-2 text-center" style="font-weight: bold;">좋  음</h1>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-1"></div>
+        <div class="col" th:align="center">
+            <h1 class="diaplay-4 text-center">나들이를 떠나보시는건 어때요~?</h1>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <h1 class="display-4"> </h1>
+    </div>
+    <div class="row align-items-center" style="background: darkblue;">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 25px;font-weight:bold;">예 보</h1>
+        </div>
+    </div>
+    <div class="row">
+        <h1 class="display-4"> </h1>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-2">
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <i class="material-icons" style="font-size: 72px;">mood</i>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <h1 class="display-4" style="font-size: 25px;">14:00</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <i class="material-icons" style="font-size: 72px;">mood</i>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <h1 class="display-4" style="font-size: 25px;">15:00</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <i class="material-icons" style="font-size: 72px;">mood</i>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <h1 class="display-4" style="font-size: 25px;">16:00</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <i class="material-icons" style="font-size: 72px;">mood</i>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <h1 class="display-4" style="font-size: 25px;">17:00</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <i class="material-icons" style="font-size: 72px;">mood</i>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <h1 class="display-4" style="font-size: 25px;">18:00</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <i class="material-icons" style="font-size: 72px;">mood</i>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col" th:align="center">
+                    <h1 class="display-4" style="font-size: 25px;">19:00</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h1 class="display-4"> </h1>
+    </div>
 </div>
-<script>
+<script th:inline="javascript">
+    var lat = [[${latlng}]];
     var map = new naver.maps.Map("map", {
-        center: new naver.maps.LatLng(37.3595316, 127.1052133),
         zoom: 10,
         mapTypeControl: true
     });
-    var infoWindow = new naver.maps.InfoWindow({
-        anchorSkew: true
-    });
 
-    function searchCoordinateToAddress(latlng) {
-        infoWindow.close();
-        naver.maps.Service.reverseGeocode({
-            "location":latlng
-        }, function (status, response) {
-            if(status == naver.maps.Service.Status.ERROR){
+    function searchAddressToCoordinate(address) {
+        naver.maps.Service.geocode({
+            address: address
+        }, function(status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
                 return alert('Something Wrong!');
             }
-            var items = response.result.items,
-                addrList = [];
 
-            /*<![CDATA[*/
-            for(var i=0; i < items.length; i++) {
-                /*]]>*/
-                addrList.push(items[i].address);
-            }
+            var item = response.result.items[0],
+                point = new naver.maps.Point(item.point.x, item.point.y);
 
-            infoWindow.setContent([
-                '<div style="padding;10px;min-width:200px;line-height:150%;">',
-                '<h4 style="margin-top:5px;">검색 좌표 : '+ response.result.userquery + '</h4><br/>',
-                addrList.join('<br/>'),
-                '</div>'
-            ].join('\n'));
-            infoWindow.open(map, latlng);
+            map.setCenter(point);
         });
     }
-    function initGeocoder() {
-        map.addListener('click', function (e) {
-            console.log(e.coord);
-            searchCoordinateToAddress(e.coord);
-        });
-    }
-    naver.maps.onJSContentLoaded = initGeocoder;
+
+    searchAddressToCoordinate(lat);
 </script>
 </body>
 </html>

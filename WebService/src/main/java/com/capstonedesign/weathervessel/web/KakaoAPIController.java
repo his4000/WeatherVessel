@@ -64,7 +64,10 @@ public class KakaoAPIController {
             log.info("No Answer");
         }
         else {
-            responseMessage.setMessage(new Message(result));
+            if(result.equalsIgnoreCase("current"))
+                responseMessage.setMessage(new Message("http://ec2-13-124-228-172.ap-northeast-2.compute.amazonaws.com:8090/currentView"));
+            else
+                responseMessage.setMessage(new Message(result));
             log.info("Answer : " + result);
         }
 
