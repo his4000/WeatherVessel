@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <title>Heat Map</title>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=eNueqceuff0oFPhe5uZD&amp;submodules=geocoder,visualization"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+<div id="wrap" class="section">
+    <div id="map" style="width:90%;height:600px;"></div>
+</div>
+<script th:inline="javascript">
+    var HOME_PATH = window.HOME_PATH || '.';
+    var mapDiv = document.getElementById('map');
+    var map = new naver.maps.Map(mapDiv, {
+        zoom: 3,
+        center: new naver.maps.LatLng(36.0207091, 127.9204629)
+    });
+    var pmList = [[${pmList}]];
+    console.log(pmList);
+
+    var latlngs = [];
+
+    function getLatLng(address) {
+        naver.maps.Service.geocode({
+            address : address
+        }, function (status, response) {
+            if(status == naver.maps.Service.ERROR){
+                return alert('Something Wrong!');
+            }
+            latlngs.push(response.result.items[0]);
+            console.log(latlngs.length-1);
+            console.log(latlngs[latlngs.length-1]);
+        });
+    }
+
+    var data = [];
+
+    function makeData (latList) {
+        console.log(latList);
+        console.log('start make data');
+        console.log(latList.length);
+        /*<![CDATA[*/
+        for(var i=0; i < 39; i++) {
+            /*]]>*/
+            data.push(new naver.maps.visualization.WeightedLocation(latList[i].point.x, latList[i].point.y, pmList[i]));
+            console.log(data[i].toString());
+            console.log('loading');
+        }
+        console.log('end make data');
+    }
+
+    getLatLng('서울 강남구 학동로 426 강남구청 별관 1동');
+    getLatLng('서울 서초구 강남대로 201 서초구민회관');
+    getLatLng('서울 강동구 구천면로 42길 59 천호 1동 주민센터');
+    getLatLng('서울 성동구 강변북로 257 한강사업본부');
+    getLatLng('서울 강북구 삼양로 139길 49 우이동 주민센터');
+    getLatLng('서울 강서로45다길 71 화곡3동 푸른들청소년도서관');
+    getLatLng('서울 강남구 학동로 426 강남구청 별관 1동서울 강서구 마곡동 727-1091 마곡역');
+    getLatLng('서울 관악구 신림동길 14 신림동 주민센터');
+    getLatLng('서울 광진구 광나루로 571 구의아리정수센터');
+    getLatLng('서울 구로구 가마산로 27길 45 구로고등학교');
+    getLatLng('서울 금천구 금하로21길 20 시흥5동 주민센터');
+    getLatLng('서울 노원구 상계로 118 상계2동 주민센터');
+    getLatLng('서울 도봉구 시루봉로2길 34 쌍문동청소년문화의집');
+    getLatLng('서울 강남구 도산대로 104 신사역');
+    getLatLng('서울 동대문구 천호대로13길 43 용두초등학교');
+    getLatLng('서울 동작구 사당로16아길 6 사당4동 주민센터');
+    getLatLng('서울 동작구 동작대로 144 이수역');
+    getLatLng('서울 마포구 대흥로 20길 28 마포아트센터');
+    getLatLng('서울 서대문구 연희로32길 51 서대문구 자연사박물관');
+    getLatLng('서울 서초구 신반포로15길 16 반포 2동 주민센터');
+    getLatLng('서울 성동구 뚝섬로 273 서울숲');
+    getLatLng('서울 성북구 삼양로2길 70 길음2동 주민센터');
+    getLatLng('서울 송파구 올림픽로 424 서울역사편찬원');
+    getLatLng('서울 마포구 노고산동 57-62 (신촌역 7번 출구)');
+    getLatLng('서울 양천구 중앙로52길 56 신정4동 문화센터');
+    getLatLng('서울 영등포구 양산로23길 11 당산1동 주민센터');
+    getLatLng('서울 영등포구 영중로 37 (영등포시장사거리)');
+    getLatLng('서울 용산구 한남대로 136 서울특별시중부기술교육원');
+    getLatLng('서울 은평구 진흥로 215 한국환경정책평가연구원');
+    getLatLng('서울 성북구 정릉로 180 내부순환로 내선 정릉램프 출구');
+    getLatLng('서울 종로구 종로 169 (종묘주차장 앞)');
+    getLatLng('서울 종로구 종로35가길 19 종로5,6가 동 주민센터');
+    getLatLng('서울 중구 덕수궁길 15 시청서소문별관 3동');
+    getLatLng('서울 중랑구 용마산로 369 건강가정지원센터');
+    getLatLng('서울 강동구 천호대로 1151 길동사거리 강동성모요양병원 앞)');
+    getLatLng('서울 중구 청계천로 184 (청계천4가사거리 남강빌딩 앞)');
+    getLatLng('서울 용산구 한강대로 405 (서울역 앞)');
+    getLatLng('서울 동대문구 홍릉로 1 (청량리전철역 사거리 SC제일은행 앞)');
+    getLatLng('서울 노원구 화랑로 429 태능입구역 8번 출구');
+
+    console.log(latlngs);
+    console.log(latlngs.length);
+
+    makeData(latlngs);
+
+    var heatmap = new naver.maps.visualization.HeatMap({
+        map: map,
+        data: data
+    });
+</script>
+</body>
+</html>

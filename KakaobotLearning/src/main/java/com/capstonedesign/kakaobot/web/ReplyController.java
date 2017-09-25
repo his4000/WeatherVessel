@@ -1,6 +1,6 @@
 package com.capstonedesign.kakaobot.web;
 
-import com.capstonedesign.kakaobot.KakaobotApplication;
+import com.capstonedesign.kakaobot.service.machine_learning.Learning;
 import com.capstonedesign.kakaobot.service.machine_learning.Prediction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class ReplyController {
             log.info("Exception occurred when decoding text token");
         }
 
-        String result = prediction.executePrediciton(KakaobotApplication.keywords, content, true);
+        String result = prediction.executePrediciton(Learning.keywords, content, true);
 
         log.info("result : " + result);
 

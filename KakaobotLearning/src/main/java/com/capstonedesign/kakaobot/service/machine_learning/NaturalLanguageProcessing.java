@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class NaturalLanguageProcessing {
 
@@ -18,9 +20,6 @@ public class NaturalLanguageProcessing {
                         ), true, true
         );
 
-        List<String> extractPhrases = new ArrayList<String>();
-        phrases.stream().forEach(phrase -> extractPhrases.add(phrase.text()));
-
-        return extractPhrases;
+        return phrases.stream().map(KoreanPhraseExtractor.KoreanPhrase::text).collect(toList());
     }
 }

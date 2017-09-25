@@ -2,6 +2,7 @@ package com.capstonedesign.kakaobot.web;
 
 import com.capstonedesign.kakaobot.domain.Questions;
 import com.capstonedesign.kakaobot.domain.QuestionsRepository;
+import com.capstonedesign.kakaobot.service.machine_learning.Learning;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -17,6 +18,8 @@ public class LearningController {
 
     @Autowired
     QuestionsRepository questionsRepository;
+    @Autowired
+    Learning learning;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(){
@@ -48,6 +51,9 @@ public class LearningController {
         questionsRepository.save(question);
 
         log.info("Success to modify");
+
+        learning.getNotLearnedIndex().add(numberInteger);
+        log.info("Add modified index : " + String.valueOf(numberInteger));
 
         return "modifying";
     }
