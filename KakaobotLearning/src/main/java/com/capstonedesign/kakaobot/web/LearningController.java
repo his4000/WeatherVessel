@@ -51,7 +51,7 @@ public class LearningController {
         questionsRepository.save(question);
 
         log.info("Success to modify");
-        
+
         learning.getNotLearnedIndex().add(numberInteger);
         log.info("Add modified index : " + String.valueOf(numberInteger));
 

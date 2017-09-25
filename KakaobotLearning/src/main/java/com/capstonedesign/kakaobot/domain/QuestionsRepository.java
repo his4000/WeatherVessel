@@ -1,11 +1,11 @@
 package com.capstonedesign.kakaobot.domain;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 public interface QuestionsRepository extends CrudRepository<Questions, Integer> {
-    List<Questions> findByIdGreaterThan(Integer i);
     Questions findById(Integer i);
-    Integer countAllBy();
+    Long countAllBy();
 }

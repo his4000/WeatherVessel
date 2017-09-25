@@ -1,10 +1,10 @@
 package com.capstonedesign.kakaobot.service.machine_learning;
 
-import com.capstonedesign.kakaobot.KakaobotApplication;
 import com.capstonedesign.kakaobot.domain.Questions;
 import com.capstonedesign.kakaobot.domain.QuestionsRepository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 @Slf4j
 @Getter
-public class Learning {
+public class Learning implements InitializingBean{
 
     @Autowired
     QuestionsRepository questionsRepository;
@@ -26,6 +26,8 @@ public class Learning {
 
     private static final long batchTime = 1;
 
+    public static List<Keyword> keywords;
+
     public static final int numAttr = 3;
     public static final int FORECAST = 0;
     public static final int CURRENT = 1;
@@ -33,11 +35,13 @@ public class Learning {
 
     private List<Integer> notLearnedIndex;
 
-    public Learning() {
+    @Override
+    public void afterPropertiesSet() throws Exception{
+        keywords = new ArrayList<>();
         notLearnedIndex = new ArrayList<>();
-        int count = questionsRepository.countAllBy();
+        long count = questionsRepository.countAllBy();
 
-        for(int i=0;i<count;i++){
+        for(int i=1;i<=count;i++){
             notLearnedIndex.add(i);
         }
     }
@@ -50,15 +54,14 @@ public class Learning {
         if(amountOfNotLearnedIndex > 0) {
             List<Questions> questions = new ArrayList<>();
 
-            for(Integer notLeanedindice : notLearnedIndex){
-                questions.add(questionsRepository.findById(notLeanedindice));
-                notLearnedIndex.remove(notLeanedindice);
-            }
+            notLearnedIndex.stream().forEach(i -> questions.add(questionsRepository.findById(i)));
+
+            notLearnedIndex.clear();
 
             for (Questions question : questions) {
                 List<String> tokens = naturalLanguageProcessing.extractPhrase(question.getText());
 
-                tokens.stream().forEach(str -> keywordModel.addProbWithStr(KakaobotApplication.keywords, str, question.getClassType()));
+                tokens.stream().forEach(str -> keywordModel.addProbWithStr(keywords, str, question.getClassType()));
             }
         }
     }
