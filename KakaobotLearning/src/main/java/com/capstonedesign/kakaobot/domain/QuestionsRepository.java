@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface QuestionsRepository extends CrudRepository<Questions, Integer> {
     List<Questions> findByIdGreaterThan(Integer i);
+    Questions findById(Integer i);
+    Integer countAllBy();
 }
