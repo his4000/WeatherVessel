@@ -1,4 +1,4 @@
-package com.capstonedesign.weathervessel.service;
+package com.capstonedesign.weathervessel.service.messaging;
 
 import lombok.Data;
 

@@ -2,20 +2,21 @@ package com.capstonedesign.kakaobot.service.machine_learning;
 
 import com.capstonedesign.kakaobot.domain.Questions;
 import com.capstonedesign.kakaobot.domain.QuestionsRepository;
+import com.capstonedesign.kakaobot.service.natural_language_processing.NaturalLanguageProcessing;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 @Slf4j
 @Getter
-public class Learning implements InitializingBean{
+public class Learning{
 
     @Autowired
     QuestionsRepository questionsRepository;
@@ -35,8 +36,8 @@ public class Learning implements InitializingBean{
 
     private List<Integer> notLearnedIndex;
 
-    @Override
-    public void afterPropertiesSet() throws Exception{
+    @PostConstruct
+    public void initLearning(){
         keywords = new ArrayList<>();
         notLearnedIndex = new ArrayList<>();
         long count = questionsRepository.countAllBy();
