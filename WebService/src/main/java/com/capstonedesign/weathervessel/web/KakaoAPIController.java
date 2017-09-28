@@ -1,8 +1,8 @@
 package com.capstonedesign.weathervessel.web;
 
-import com.capstonedesign.weathervessel.service.Message;
-import com.capstonedesign.weathervessel.service.RequestMessage;
-import com.capstonedesign.weathervessel.service.ResponseMessage;
+import com.capstonedesign.weathervessel.service.messaging.Message;
+import com.capstonedesign.weathervessel.service.messaging.RequestMessage;
+import com.capstonedesign.weathervessel.service.messaging.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

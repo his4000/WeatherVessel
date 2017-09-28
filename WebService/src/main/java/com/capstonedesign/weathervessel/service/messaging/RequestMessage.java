@@ -1,4 +1,4 @@
-package com.capstonedesign.weathervessel.service;
+package com.capstonedesign.weathervessel.service.messaging;
 
 public class RequestMessage {
     private String user_key;

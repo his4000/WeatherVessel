@@ -1,5 +1,6 @@
 package com.capstonedesign.kakaobot.service.machine_learning;
 
+import com.capstonedesign.kakaobot.service.natural_language_processing.NaturalLanguageProcessing;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
