@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedReader;
@@ -57,36 +58,6 @@ public class WebViewController {
         mv.setViewName("heatMap");
 
         return mv;
-    }
-
-    private String getLatLng(String address) {
-        String clientId = "eNueqceuff0oFPhe5uZD";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = "sq1flv6Kxt";//애플리케이션 클라이언트 시크릿값";
-        try {
-            String addr = URLEncoder.encode(address, "UTF-8");
-            String apiURL = "https://openapi.naver.com/v1/map/geocode?query=" + addr; //json
-            URL url = new URL(apiURL);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("X-Naver-Client-Id", clientId);
-            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-            int responseCode = con.getResponseCode();
-            BufferedReader br;
-            if (responseCode == 200) { // 정상 호출
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            } else {  // 에러 발생
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-            }
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = br.readLine()) != null) {
-                response.append(inputLine);
-            }
-            br.close();
-            return response.toString();
-        } catch (Exception e) {
-            return "";
-        }
     }
 
     private String getNowTime(){

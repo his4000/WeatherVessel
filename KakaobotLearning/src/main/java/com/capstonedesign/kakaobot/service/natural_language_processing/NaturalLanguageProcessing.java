@@ -1,7 +1,6 @@
 package com.capstonedesign.kakaobot.service.natural_language_processing;
 
-import com.capstonedesign.kakaobot.domain.AddressIndex;
-import com.capstonedesign.kakaobot.domain.AddressIndexRepository;
+import com.capstonedesign.kakaobot.domain.AddressRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.openkoreantext.processor.KoreanTokenJava;
 import org.openkoreantext.processor.OpenKoreanTextProcessorJava;
@@ -19,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 public class NaturalLanguageProcessing{
 
     @Autowired
-    AddressIndexRepository addressIndexRepository;
+    AddressRepository addressIndexRepository;
 
     //@PostConstruct
     /*public void initNLP(){

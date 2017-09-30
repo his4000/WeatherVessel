@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class AddressIndex {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,7 +15,7 @@ public class AddressIndex {
     @Column
     private String address;
 
-    public AddressIndex(String address){
+    public Address(String address){
         this.address = address;
     }
 }
