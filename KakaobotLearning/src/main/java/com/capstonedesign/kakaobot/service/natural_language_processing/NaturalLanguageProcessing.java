@@ -1,6 +1,5 @@
 package com.capstonedesign.kakaobot.service.natural_language_processing;
 
-import com.capstonedesign.kakaobot.domain.AddressRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.openkoreantext.processor.KoreanTokenJava;
 import org.openkoreantext.processor.OpenKoreanTextProcessorJava;
@@ -17,8 +16,8 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class NaturalLanguageProcessing{
 
-    @Autowired
-    AddressRepository addressIndexRepository;
+    //@Autowired
+    //AddressRepository addressIndexRepository;
 
     //@PostConstruct
     /*public void initNLP(){
@@ -69,7 +68,7 @@ public class NaturalLanguageProcessing{
         return phrases.stream().map(KoreanPhraseExtractor.KoreanPhrase::text).collect(toList());
     }
 
-    public String getAddressFromText(String text){
+    /*public String getAddressFromText(String text){
         List<KoreanTokenJava> tokens = textTokenizing(text);
         List<String> addressList = new ArrayList<>();
         String ret = "";
@@ -84,5 +83,5 @@ public class NaturalLanguageProcessing{
         }
 
         return ret;
-    }
+    }*/
 }

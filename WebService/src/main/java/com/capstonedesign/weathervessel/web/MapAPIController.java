@@ -4,12 +4,11 @@ import com.capstonedesign.weathervessel.domain.Address;
 import com.capstonedesign.weathervessel.domain.AddressRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,6 +21,7 @@ import java.util.List;
 @RestController
 @EnableAutoConfiguration
 @Slf4j
+@RequestMapping("/getAddressCode")
 public class MapAPIController {
 
     @Autowired
@@ -29,28 +29,39 @@ public class MapAPIController {
     private String clientId = "eNueqceuff0oFPhe5uZD";  //Naver map api ID
     private String clientSecret = "sq1flv6Kxt";  //Naver map api secret
 
-    @RequestMapping(value = "/getAddressCode/{gps}")
-    public String reverseGeocode(@RequestBody String gps) {
+    @RequestMapping(value = "{gps}", method = RequestMethod.GET)
+    public String reverseGeocode(@PathVariable String gps) {
         log.info("get parameter : " + gps);
         JSONObject resultFromNaver = new JSONObject(getAddress(gps));
+        log.info(resultFromNaver.toString());
         JSONArray addressItems = resultFromNaver.getJSONObject("result").getJSONArray("items");
-        JSONObject tmpJson;
         List<String> addressList = new ArrayList<>();
 
-        for(int i=0;(tmpJson = addressItems.getJSONObject(i)) != null;i++){
-            addressList.add(tmpJson.getJSONObject("addressdetail").get("dongmyun").toString());
+        int i=0;
+        while(true){
+            try{
+                addressList.add(addressItems.getJSONObject(i).getJSONObject("addrdetail").get("dongmyun").toString());
+                i++;
+            }catch(JSONException e){
+                break;
+            }
         }
 
         Address ret = null;
+
         for(String address : addressList){
-            if((ret = addressRepository.findByAddress(address)) != null)
+            try{
+                log.info(address);
+                ret = addressRepository.findAddressByAddrDongLike(address);
+                log.info(ret.toString());
                 break;
+            }catch(NullPointerException e){}
         }
 
         if(ret == null)
             return "null";
         else
-            return String.valueOf(ret.getId());
+            return String.valueOf(ret.getAddrId());
     }
 
     private String getLatLng(String address) {
