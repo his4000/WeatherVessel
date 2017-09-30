@@ -31,6 +31,7 @@ public class MapAPIController {
 
     @RequestMapping(value = "/getAddressCode")
     public String reverseGeocode(@RequestBody String gps) {
+        log.info("get parameter : " + gps);
         JSONObject resultFromNaver = new JSONObject(getAddress(gps));
         JSONArray addressItems = resultFromNaver.getJSONObject("result").getJSONArray("items");
         JSONObject tmpJson;
