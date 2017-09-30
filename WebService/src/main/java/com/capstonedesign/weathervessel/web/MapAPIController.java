@@ -1,8 +1,11 @@
 package com.capstonedesign.weathervessel.web;
 
+import com.capstonedesign.weathervessel.domain.Address;
+import com.capstonedesign.weathervessel.domain.AddressRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +24,12 @@ import java.util.List;
 @Slf4j
 public class MapAPIController {
 
+    @Autowired
+    AddressRepository addressRepository;
     private String clientId = "eNueqceuff0oFPhe5uZD";  //Naver map api ID
     private String clientSecret = "sq1flv6Kxt";  //Naver map api secret
 
-    @RequestMapping(value = "/reversegeocode")
+    @RequestMapping(value = "/getAddressCode")
     public String reverseGeocode(@RequestBody String gps) {
         JSONObject resultFromNaver = new JSONObject(getAddress(gps));
         JSONArray addressItems = resultFromNaver.getJSONObject("result").getJSONArray("items");
@@ -35,7 +40,16 @@ public class MapAPIController {
             addressList.add(tmpJson.getJSONObject("addressdetail").get("dongmyun").toString());
         }
 
-        return addressList.toString();
+        Address ret = null;
+        for(String address : addressList){
+            if((ret = addressRepository.findByAddress(address)) != null)
+                break;
+        }
+
+        if(ret == null)
+            return "null";
+        else
+            return String.valueOf(ret.getId());
     }
 
     private String getLatLng(String address) {
