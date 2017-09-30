@@ -29,7 +29,7 @@ public class MapAPIController {
     private String clientId = "eNueqceuff0oFPhe5uZD";  //Naver map api ID
     private String clientSecret = "sq1flv6Kxt";  //Naver map api secret
 
-    @RequestMapping(value = "/getAddressCode")
+    @RequestMapping(value = "/getAddressCode/{gps}")
     public String reverseGeocode(@RequestBody String gps) {
         log.info("get parameter : " + gps);
         JSONObject resultFromNaver = new JSONObject(getAddress(gps));
