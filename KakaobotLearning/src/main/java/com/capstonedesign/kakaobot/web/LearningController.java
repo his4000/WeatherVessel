@@ -54,6 +54,7 @@ public class LearningController {
 
         learning.getNotLearnedIndex().add(numberInteger);
         log.info("Add modified index : " + String.valueOf(numberInteger));
+        learning.executeLearning();
 
         return "modifying";
     }
