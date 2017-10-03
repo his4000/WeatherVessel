@@ -29,4 +29,9 @@ public class Address {
         this.addrGu = address_gu;
         this.addrDong = address_dong;
     }
+
+    @Override
+    public String toString(){
+        return addrSi + " " + addrGu + " " + addrDong;
+    }
 }

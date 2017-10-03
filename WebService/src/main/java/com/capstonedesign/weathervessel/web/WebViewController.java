@@ -1,9 +1,15 @@
 package com.capstonedesign.weathervessel.web;
 
+import com.capstonedesign.weathervessel.domain.Address;
+import com.capstonedesign.weathervessel.domain.AddressRepository;
+import com.capstonedesign.weathervessel.domain.Observe;
+import com.capstonedesign.weathervessel.domain.ObserveRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,24 +29,36 @@ import java.util.Random;
 @Slf4j
 public class WebViewController {
 
-    @RequestMapping(value = "/mapView")
-    public ModelAndView webViewing()
-    {
-        ModelAndView mv = new ModelAndView();
+    @Autowired
+    AddressRepository addressRepository;
+    @Autowired
+    ObserveRepository observeRepository;
 
-        mv.addObject("address", "서울특별시 광진구 화양동");
+    @RequestMapping(value = "/mapView/{address}")
+    public ModelAndView webViewing(@PathVariable String address) {
+        ModelAndView mv = new ModelAndView();
+        Address wantedAddress = addressRepository.findAddressByAddrDongLike(address);
+        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTime(wantedAddress);
+
+        mv.addObject("addressName", address);
+        mv.addObject("address", wantedAddress.toString());
         mv.addObject("time", getNowTime());
+        mv.addObject("observe", observeList.get(0));
         mv.setViewName("monitor");
 
         return mv;
     }
 
-    @RequestMapping(value = "/currentView")
-    public ModelAndView currentViewing(){
+    @RequestMapping(value = "/currentView/{address}")
+    public ModelAndView currentViewing(@PathVariable String address){
         ModelAndView mv = new ModelAndView();
+        Address wantedAddress = addressRepository.findAddressByAddrDongLike(address);
+        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTime(wantedAddress);
 
-        mv.addObject("address", "서울특별시 광진구 화양동");
+        mv.addObject("addressName", address);
+        mv.addObject("address", wantedAddress.toString());
         mv.addObject("time", getNowTime());
+        mv.addObject("observe", observeList.get(0));
         mv.setViewName("current");
         return mv;
     }

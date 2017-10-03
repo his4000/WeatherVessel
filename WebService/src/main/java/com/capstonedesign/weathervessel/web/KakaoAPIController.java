@@ -3,8 +3,11 @@ package com.capstonedesign.weathervessel.web;
 import com.capstonedesign.weathervessel.service.messaging.Message;
 import com.capstonedesign.weathervessel.service.messaging.RequestMessage;
 import com.capstonedesign.weathervessel.service.messaging.ResponseMessage;
+import com.capstonedesign.weathervessel.service.natural_language_processing.NaturalLanguageProcessing;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.openkoreantext.processor.KoreanTokenJava;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +17,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 @RestController
 @EnableAutoConfiguration
 @Slf4j
 public class KakaoAPIController {
 
-    private String hello;
+    private final String hello = "Project Weather Vessel for Capstone Design 2 class in Konkuk Univ. Department of Computer Science Engineering - KIM MIN SU, LEE CHANG OH, CHO YOON KI";
+    @Autowired
+    NaturalLanguageProcessing naturalLanguageProcessing;
 
     @RequestMapping("/")
     public String hello(){
-        hello = "Project Weather Vessel for Capstone Design 2 class in Konkuk Univ. Department of Computer Science Engineering - KIM MIN SU, LEE CHANG OH, CHO YOON KI";
         return this.hello;
     }
 
@@ -64,8 +69,19 @@ public class KakaoAPIController {
             log.info("No Answer");
         }
         else {
-            if(result.equalsIgnoreCase("current"))
-                responseMessage.setMessage(new Message("http://ec2-13-124-228-172.ap-northeast-2.compute.amazonaws.com:8090/currentView"));
+            if(result.equalsIgnoreCase("current")) {
+                List<KoreanTokenJava> addresses = naturalLanguageProcessing.filterAddress(naturalLanguageProcessing.textTokenizing(content));
+                String url = "http://ec2-13-124-228-172.ap-northeast-2.compute.amazonaws.com:8090/currentView";
+
+                if(addresses.isEmpty())
+                    responseMessage.setMessage(new Message("현재 서울 지역 미세먼지 정보만 제공하고 있어요. 서울 어디의 날씨가 궁금하세요?"));
+                else if(addresses.size() > 1)
+                    responseMessage.setMessage(new Message("하나의 지역만 입력해 주세요"));
+                else {
+                    url = url + addresses.get(0).getText();
+                    responseMessage.setMessage(new Message(url));
+                }
+            }
             else
                 responseMessage.setMessage(new Message(result));
             log.info("Answer : " + result);
