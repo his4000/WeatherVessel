@@ -71,7 +71,7 @@ public class KakaoAPIController {
         else {
             if(result.equalsIgnoreCase("current")) {
                 List<KoreanTokenJava> addresses = naturalLanguageProcessing.filterAddress(naturalLanguageProcessing.textTokenizing(content));
-                String url = "http://ec2-13-124-228-172.ap-northeast-2.compute.amazonaws.com:8090/currentView";
+                String url = "http://ec2-13-124-228-172.ap-northeast-2.compute.amazonaws.com:8090/currentView/";
 
                 if(addresses.isEmpty())
                     responseMessage.setMessage(new Message("현재 서울 지역 미세먼지 정보만 제공하고 있어요. 서울 어디의 날씨가 궁금하세요?"));
