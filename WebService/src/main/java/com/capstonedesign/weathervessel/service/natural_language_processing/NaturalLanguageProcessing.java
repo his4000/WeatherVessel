@@ -26,7 +26,7 @@ public class NaturalLanguageProcessing {
         addresses = new ArrayList<>();
         String line;
 
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("/src/main/resources/static/address/Seoul.txt"), "UTF-8"))){
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("BOOT-INF/classes/static/address/Seoul.txt"), "UTF-8"))){
             while((line = br.readLine()) != null)
                 addresses.add(line);
         }catch (Exception e){
