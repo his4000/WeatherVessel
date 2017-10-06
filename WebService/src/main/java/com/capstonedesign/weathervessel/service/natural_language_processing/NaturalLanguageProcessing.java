@@ -7,9 +7,7 @@ import org.openkoreantext.processor.phrase_extractor.KoreanPhraseExtractor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class NaturalLanguageProcessing {
         addresses = new ArrayList<>();
         String line;
 
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("../../../../static/address/Seoul.txt"), "UTF-8"))){
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(this.getClass().getClassLoader().getResource("static/address/Seoul.txt").getFile()))))){
             while((line = br.readLine()) != null)
                 addresses.add(line);
         }catch (Exception e){
