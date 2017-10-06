@@ -24,7 +24,9 @@ public class NaturalLanguageProcessing {
         addresses = new ArrayList<>();
         String line;
 
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(this.getClass().getClassLoader().getResource("static/address/Seoul.txt").getFile()))))){
+        log.info(this.getClass().getClassLoader().getResource("static/address/Seoul.txt").getPath());
+
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/static/address/Seoul.txt")))){
             while((line = br.readLine()) != null)
                 addresses.add(line);
         }catch (Exception e){
