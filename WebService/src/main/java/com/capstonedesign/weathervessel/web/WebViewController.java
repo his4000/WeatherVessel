@@ -38,7 +38,7 @@ public class WebViewController {
     public ModelAndView webViewing(@PathVariable String address) {
         ModelAndView mv = new ModelAndView();
         Address wantedAddress = addressRepository.findAddressByAddrDongLike(address);
-        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTime(wantedAddress);
+        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTimeDesc(wantedAddress);
 
         mv.addObject("addressName", address);
         mv.addObject("address", wantedAddress.toString());
@@ -53,7 +53,7 @@ public class WebViewController {
     public ModelAndView currentViewing(@PathVariable String address){
         ModelAndView mv = new ModelAndView();
         Address wantedAddress = addressRepository.findAddressByAddrDongLike(address);
-        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTime(wantedAddress);
+        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTimeDesc(wantedAddress);
 
         mv.addObject("addressName", address);
         mv.addObject("address", wantedAddress.toString());
