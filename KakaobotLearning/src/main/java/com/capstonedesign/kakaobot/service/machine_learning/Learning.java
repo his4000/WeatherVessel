@@ -25,8 +25,6 @@ public class Learning{
     @Autowired
     NaturalLanguageProcessing naturalLanguageProcessing;
 
-    private static final long batchTime = 1;
-
     public static List<Keyword> keywords;
 
     public static final int numAttr = 3;
@@ -45,9 +43,10 @@ public class Learning{
         for(int i=1;i<=count;i++){
             notLearnedIndex.add(i);
         }
+
+        executeLearning();
     }
 
-    @Scheduled(fixedRate = batchTime * 60 * 1000)
     public void executeLearning() {
         int amountOfNotLearnedIndex = notLearnedIndex.size();
         log.info("Amount of not learned index : " + String.valueOf(amountOfNotLearnedIndex));
