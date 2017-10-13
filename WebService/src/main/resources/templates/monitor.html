@@ -235,7 +235,7 @@
 <script th:inline="javascript">
     var point = new naver.maps.Point([[${observe.gps_x}]], [[${observe.gps_y}]]);
     var map = new naver.maps.Map('map', {
-        zoom: 8,
+        zoom: 10,
         mapTypeControl: true,
         center: point
     });
@@ -244,23 +244,30 @@
         map: map,
         clickable: true
     });
-    var contentString = [
-        '<h1 class="display-4 text-center" style="font-weight: bold;font-size: 200%;color:black;" th:text="${address}"></h1>',
-        '<h1 class="display-4" style="font-size: 200%;color:black;">',
-        '<span>측정 시간 : </span>',
-        '<span th:text="${observe.time}"></span>',
-        '</h1>',
-        '<h1 class="display-4" style="font-size: 200%;color:black;">',
-        '<span>초미세먼지 : </span>',
-        '<span th:text="${observe.pm25}"></span>',
-        '</h1>',
-        '<h1 class="display-4" style="font-size: 200%;color:black;">',
-        '<span>미세먼지 : </span>',
-        '<span th:text="${observe.pm10}"></span>',
-        '</h1>'
-    ].join('');
     var infoWindow = new naver.maps.InfoWindow({
-        content: ''
+        content: [[${address}]],
+        backgroundColor: '#FFFEBD',
+        borderColor: '#A29B92',
+        borderWidth: 2,
+        anchorColor: '#FFFEBD'
+    });
+    /*var contentString = [
+        '<h1 class="display-4 text-center" style="font-weight: bold;font-size: 200%;color:#70685F;" th:text="${address}"></h1>',
+        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">측정 시간</h4>',
+        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;" th:text="${observe.time}"></h4>',
+        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">초미세먼지 : ',
+        '<span th:text="${observe.pm25}"></span>',
+        '</h4>',
+        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">미세먼지 : ',
+        '<span th:text="${observe.pm10}"></span>',
+        '</h4>'
+    ].join('');*/
+    /*var infoWindow = new naver.maps.InfoWindow({
+        content: contentString,
+        backgroundColor: '#FFFEBD',
+        borderColor: '#A29B92',
+        borderWidth: 2,
+        anchorColor: '#FFFEBD'
     });
     naver.maps.Event.addListener(marker, "click", function (e){
        if(infoWindow.getMap()){
@@ -270,8 +277,7 @@
            infoWindow.open(map, marker);
        }
     });
-    infoWindow.setContent(contentString);
-    infoWindow.open(map, marker);
+    infoWindow.open(map, marker);*/
 </script>
 </body>
 </html>

@@ -1,6 +1,10 @@
 package com.capstonedesign.weathervessel.web;
 
+import com.capstonedesign.weathervessel.domain.AddressRepository;
+import com.capstonedesign.weathervessel.domain.Observe;
+import com.capstonedesign.weathervessel.domain.ObserveRepository;
 import com.capstonedesign.weathervessel.service.messaging.Message;
+import com.capstonedesign.weathervessel.service.messaging.MessageButton;
 import com.capstonedesign.weathervessel.service.messaging.RequestMessage;
 import com.capstonedesign.weathervessel.service.messaging.ResponseMessage;
 import com.capstonedesign.weathervessel.service.natural_language_processing.NaturalLanguageProcessing;
@@ -27,6 +31,10 @@ public class KakaoAPIController {
     private final String hello = "Project Weather Vessel for Capstone Design 2 class in Konkuk Univ. Department of Computer Science Engineering - KIM MIN SU, LEE CHANG OH, CHO YOON KI";
     @Autowired
     NaturalLanguageProcessing naturalLanguageProcessing;
+    @Autowired
+    ObserveRepository observeRepository;
+    @Autowired
+    AddressRepository addressRepository;
 
     @RequestMapping("/")
     public String hello(){
@@ -78,8 +86,9 @@ public class KakaoAPIController {
                 else if(addresses.size() > 1)
                     responseMessage.setMessage(new Message("하나의 지역만 입력해 주세요"));
                 else {
-                    url = url + addresses.get(0).getText();
-                    responseMessage.setMessage(new Message(url));
+                    String address = addresses.get(0).getText();
+                    url = url + address;
+                    responseMessage.setMessage(new Message(setReplyMessage(address), new MessageButton(url)));
                 }
             }
             else
@@ -88,6 +97,35 @@ public class KakaoAPIController {
         }
 
         return responseMessage;
+    }
+
+    private String setReplyMessage(String address){
+        Observe observe = observeRepository.findObserveByAddrIdOrderByTimeDesc(addressRepository.findAddressByAddrDongLike(address)).get(0);
+        Long pm10 = observe.getPm10();
+        Long pm25 = observe.getPm25();
+
+        switch (WebViewController.getStatus(pm10, pm25)){
+            case VeryGood:
+                return "오늘"+ address + "의 상태는 미세먼지 " + String.valueOf(pm10) + "ug/m3, 초미세먼지 " + String.valueOf(pm25) + "ug/m3으로 아주 상쾌한 날씨에요 ;)\n\n"
+                        + "야외 나들이나 바깥활동을 계획해보시는게 어때요? :)\n\n"
+                        + "더 자세한 미세먼지 정보를 보시려면 아래 버튼을 눌러주세요";
+            case Good:
+                return "오늘"+ address + "의 상태는 미세먼지 " + String.valueOf(pm10) + "ug/m3, 초미세먼지 " + String.valueOf(pm25) + "ug/m3으로 비교적 깨끗한 날씨에요 :)\n\n"
+                        + "야외 활동을 하기에 적당한 날씨일 것 같네요 ;)\n\n"
+                        + "더 자세한 미세먼지 정보를 보시려면 아래 버튼을 눌러주세요";
+            case Bad:
+                return "오늘"+ address + "의 상태는 미세먼지 " + String.valueOf(pm10) + "ug/m3, 초미세먼지 " + String.valueOf(pm25) + "ug/m3으로 미세먼지 상태가 좋지 않네요 ㅠㅠ\n\n"
+                        + "야외 활동 시에는 꼭 마스크를 챙겨주세요~!\n\n"
+                        + "더 자세한 미세먼지 정보를 보시려면 아래 버튼을 눌러주세요";
+            case VeryBad:
+                return "오늘"+ address + "의 상태는 미세먼지 " + String.valueOf(pm10) + "ug/m3, 초미세먼지 " + String.valueOf(pm25) + "ug/m3으로 아주 나쁜 상태에요 ㅠㅠ\n\n"
+                        + "야외 활동을 삼가하시고 꼭 나가야 하는 경우에는 마스크를 반드시 챙기도록 하세요~!\n\n"
+                        + "더 자세한 미세먼지 정보를 보시려면 아래 버튼을 눌러주세요";
+                default:
+                    return "정확한 관측 정보를 찾지 못한 것 같아요ㅠㅠ\n\n"
+                            + "주소 정보 등이 정확한지 확인하시고 다시 시도해 주세요\n\n"
+                            + "다시 시도해도 정보를 찾지 못할 경우 서비스 지역이 아닐 수 있어요";
+        }
     }
 
     private String classifying(String encodedContent) throws Exception{
