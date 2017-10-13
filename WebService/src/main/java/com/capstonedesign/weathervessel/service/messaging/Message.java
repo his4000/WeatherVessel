@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Message {
     private String text;
-    private MessageButton messageButton;
+    private MessageButton message_button;
 
     public Message(String text){
         this.text = text;
@@ -13,7 +13,7 @@ public class Message {
 
     public Message(String text, MessageButton messageButton){
         this.text = text;
-        this.messageButton = messageButton;
+        this.message_button = messageButton;
     }
 
     @Override
