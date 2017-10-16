@@ -1,10 +1,18 @@
 package com.capstonedesign.weathervessel.web;
 
+import com.capstonedesign.weathervessel.domain.Address;
+import com.capstonedesign.weathervessel.domain.AddressRepository;
+import com.capstonedesign.weathervessel.domain.Observe;
+import com.capstonedesign.weathervessel.domain.ObserveRepository;
+import com.capstonedesign.weathervessel.service.WeatherStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedReader;
@@ -22,26 +30,70 @@ import java.util.Random;
 @Slf4j
 public class WebViewController {
 
-    @RequestMapping(value = "/mapView")
-    public ModelAndView webViewing()
-    {
-        ModelAndView mv = new ModelAndView();
+    @Autowired
+    AddressRepository addressRepository;
+    @Autowired
+    ObserveRepository observeRepository;
 
-        mv.addObject("address", "서울특별시 광진구 화양동");
+    @RequestMapping(value = "/mapView/{address}")
+    public ModelAndView webViewing(@PathVariable String address) {
+        ModelAndView mv = new ModelAndView();
+        Address wantedAddress = addressRepository.findAddressByAddrDongLike(address);
+        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTimeDesc(wantedAddress);
+
+        mv.addObject("addressName", address);
+        mv.addObject("address", wantedAddress.toString());
         mv.addObject("time", getNowTime());
+        mv.addObject("observe", observeList.get(0));
         mv.setViewName("monitor");
 
         return mv;
     }
 
-    @RequestMapping(value = "/currentView")
-    public ModelAndView currentViewing(){
+    @RequestMapping(value = "/currentView/{address}")
+    public ModelAndView currentViewing(@PathVariable String address){
         ModelAndView mv = new ModelAndView();
+        Address wantedAddress = addressRepository.findAddressByAddrDongLike(address);
+        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTimeDesc(wantedAddress);
 
-        mv.addObject("address", "서울특별시 광진구 화양동");
+        mv.addObject("addressName", address);
+        mv.addObject("address", wantedAddress.toString());
         mv.addObject("time", getNowTime());
-        mv.setViewName("current");
+        mv.addObject("observe", observeList.get(0));
+
+        Long pm10 = observeList.get(0).getPm10();
+        Long pm25 = observeList.get(0).getPm25();
+
+        switch (getStatus(pm10, pm25)){
+            case VeryGood:
+                mv.setViewName("currentVeryGood");
+                break;
+            case Good:
+                mv.setViewName("currentGood");
+                break;
+            case Bad:
+                mv.setViewName("currentBad");
+                break;
+            case VeryBad:
+                mv.setViewName("currentVeryBad");
+                break;
+        }
         return mv;
+    }
+
+    public static WeatherStatus getStatus(Long pm10, Long pm25){
+        if(pm10 < 50 && pm25 < 25){
+            if(pm10 < 25 || pm25 < 12)
+                return WeatherStatus.VeryGood;
+            else
+                return WeatherStatus.Good;
+        }
+        else{
+            if(pm10 > 75 || pm25 > 38)
+                return WeatherStatus.VeryBad;
+            else
+                return WeatherStatus.Bad;
+        }
     }
 
     @RequestMapping(value = "/heatMapView")
@@ -57,36 +109,6 @@ public class WebViewController {
         mv.setViewName("heatMap");
 
         return mv;
-    }
-
-    private String getLatLng(String address) {
-        String clientId = "eNueqceuff0oFPhe5uZD";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = "sq1flv6Kxt";//애플리케이션 클라이언트 시크릿값";
-        try {
-            String addr = URLEncoder.encode(address, "UTF-8");
-            String apiURL = "https://openapi.naver.com/v1/map/geocode?query=" + addr; //json
-            URL url = new URL(apiURL);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("X-Naver-Client-Id", clientId);
-            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-            int responseCode = con.getResponseCode();
-            BufferedReader br;
-            if (responseCode == 200) { // 정상 호출
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            } else {  // 에러 발생
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-            }
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = br.readLine()) != null) {
-                response.append(inputLine);
-            }
-            br.close();
-            return response.toString();
-        } catch (Exception e) {
-            return "";
-        }
     }
 
     private String getNowTime(){

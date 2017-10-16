@@ -70,7 +70,6 @@
             div{font-size: 2rem;}
         }
     </style>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=eNueqceuff0oFPhe5uZD&amp;submodules=geocoder"></script>
 </head>
 <body>
 <div class="container-fluid bg-primary">
@@ -82,7 +81,7 @@
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4 text-center" style="font-weight: bold;font-size: 200%;" th:text="${address}"></h1>
+                    <h1 class="display-4 text-center" style="font-weight: bold;font-size: 200%" th:text="${address}"></h1>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -92,20 +91,20 @@
             </div>
         </div>
         <div class="col" th:align="center">
-            <a th:href="@{/currentView/{address}(address=${addressName})}" class="material-icons" style="font-size:450%;color:white;">mood</a>
+            <a th:href="@{/mapView/{address}(address=${addressName})}" class="material-icons" style="font-size:450%;color:white;">place</a>
         </div>
     </div>
     <div class="row align-items-center">
         <div class="col" th:align="center">
-            <div id="map" style="width: 100%; height: 300px;"></div>
+            <i class="material-icons" style="font-size:3000%;">sentiment_very_satisfied</i>
         </div>
     </div>
     <div class="row align-items-center">
-        <div class="col-3"></div>
+        <div class="col-2"></div>
         <div class="col" th:align="center">
-            <h1 class="display-2 text-center" style="font-weight: bold;font-size: 450%;">좋  음</h1>
+            <h1 class="display-2 text-center" style="font-weight: bold;font-size: 450%;">아 주  좋 음</h1>
         </div>
-        <div class="col-3"></div>
+        <div class="col-2"></div>
     </div>
     <div class="row align-items-center">
         <div class="col-1"></div>
@@ -125,79 +124,69 @@
     <div class="row">
         <h1 class="display-4"> </h1>
     </div>
-    <div class="row align-items-center">
+    <div class="row align-items-center" style="-webkit-overflow-scrolling: touch;">
+        <div class="col-1"></div>
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 700%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">14:00</h1>
+                    <h1 class="display-4" style="font-size: 230%;">14:00</h1>
                 </div>
             </div>
         </div>
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 700%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">15:00</h1>
+                    <h1 class="display-4" style="font-size: 230%;">15:00</h1>
                 </div>
             </div>
         </div>
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 700%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">16:00</h1>
+                    <h1 class="display-4" style="font-size: 230%;">16:00</h1>
                 </div>
             </div>
         </div>
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 700%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">17:00</h1>
+                    <h1 class="display-4" style="font-size: 230%;">17:00</h1>
                 </div>
             </div>
         </div>
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 700%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">18:00</h1>
+                    <h1 class="display-4" style="font-size: 230%;">18:00</h1>
                 </div>
             </div>
         </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">19:00</h1>
-                </div>
-            </div>
-        </div>
+        <div class="col-1"></div>
     </div>
     <div class="row align-items-center" style="background: darkblue;">
         <div class="col">
@@ -232,52 +221,6 @@
         <h1 class="display-4"> </h1>
     </div>
 </div>
-<script th:inline="javascript">
-    var point = new naver.maps.Point([[${observe.gps_x}]], [[${observe.gps_y}]]);
-    var map = new naver.maps.Map('map', {
-        zoom: 10,
-        mapTypeControl: true,
-        center: point
-    });
-    var marker = new naver.maps.Marker({
-        position: point,
-        map: map,
-        clickable: true
-    });
-    var infoWindow = new naver.maps.InfoWindow({
-        content: [[${address}]],
-        backgroundColor: '#FFFEBD',
-        borderColor: '#A29B92',
-        borderWidth: 2,
-        anchorColor: '#FFFEBD'
-    });
-    /*var contentString = [
-        '<h1 class="display-4 text-center" style="font-weight: bold;font-size: 200%;color:#70685F;" th:text="${address}"></h1>',
-        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">측정 시간</h4>',
-        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;" th:text="${observe.time}"></h4>',
-        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">초미세먼지 : ',
-        '<span th:text="${observe.pm25}"></span>',
-        '</h4>',
-        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">미세먼지 : ',
-        '<span th:text="${observe.pm10}"></span>',
-        '</h4>'
-    ].join('');*/
-    /*var infoWindow = new naver.maps.InfoWindow({
-        content: contentString,
-        backgroundColor: '#FFFEBD',
-        borderColor: '#A29B92',
-        borderWidth: 2,
-        anchorColor: '#FFFEBD'
-    });
-    naver.maps.Event.addListener(marker, "click", function (e){
-       if(infoWindow.getMap()){
-           infoWindow.close();
-       }
-       else{
-           infoWindow.open(map, marker);
-       }
-    });
-    infoWindow.open(map, marker);*/
-</script>
+<script src="http://code.jquery.com/jquery.js"></script>
 </body>
 </html>

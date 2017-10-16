@@ -72,7 +72,7 @@
     </style>
 </head>
 <body>
-<div class="container-fluid bg-primary">
+<div class="container-fluid" style="background: #FC7228;color: white">
     <div class="row align-items-center">
         <div class="col"></div>
         <div class="col-8">
@@ -91,32 +91,32 @@
             </div>
         </div>
         <div class="col" th:align="center">
-            <a th:href="mapView" class="material-icons" style="font-size:450%;color:white;">place</a>
+            <a th:href="@{/mapView/{address}(address=${addressName})}" class="material-icons" style="font-size:450%;color:white;">place</a>
         </div>
     </div>
     <div class="row align-items-center">
         <div class="col" th:align="center">
-            <i class="material-icons" style="font-size:3000%;">mood</i>
+            <i class="material-icons" style="font-size:3000%;">sentiment_dissatisfied</i>
         </div>
     </div>
     <div class="row align-items-center">
         <div class="col-3"></div>
         <div class="col" th:align="center">
-            <h1 class="display-2 text-center" style="font-weight: bold;font-size: 450%;">좋  음</h1>
+            <h1 class="display-2 text-center" style="font-weight: bold;font-size: 450%;">나  쁨</h1>
         </div>
         <div class="col-3"></div>
     </div>
     <div class="row align-items-center">
         <div class="col-1"></div>
         <div class="col" th:align="center">
-            <h1 class="diaplay-4 text-center" style="font-size: 200%;">나들이를 떠나보시는건 어때요~?</h1>
+            <h1 class="diaplay-4 text-center" style="font-size: 200%;">외출 시 마스크가 필요해요~!</h1>
         </div>
         <div class="col-1"></div>
     </div>
     <div class="row">
         <h1 class="display-4"> </h1>
     </div>
-    <div class="row align-items-center" style="background: darkblue;">
+    <div class="row align-items-center" style="background: #CE5D21;">
         <div class="col">
             <h1 class="display-4" style="font-size: 200%;font-weight:bold;">예 보</h1>
         </div>
@@ -128,7 +128,7 @@
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 550%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -140,7 +140,7 @@
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 550%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -152,7 +152,7 @@
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 550%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -164,7 +164,7 @@
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 550%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -176,7 +176,7 @@
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 550%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -188,7 +188,7 @@
         <div class="col-2">
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
+                    <i class="material-icons" style="font-size: 550%;">mood</i>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -196,6 +196,35 @@
                     <h1 class="display-4" style="font-size: 200%;">19:00</h1>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row align-items-center" style="background: #CE5D21;">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 200%;font-weight:bold;">상세 정보</h1>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 200%;">
+                <span>측정 시간 : </span>
+                <span th:text="${observe.time}"></span>
+            </h1>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 200%;">
+                <span>초미세먼지 : </span>
+                <span th:text="${observe.pm25}"></span>
+            </h1>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 200%;">
+                <span>미세먼지 : </span>
+                <span th:text="${observe.pm10}"></span>
+            </h1>
         </div>
     </div>
     <div class="row">

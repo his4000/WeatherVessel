@@ -92,7 +92,7 @@
             </div>
         </div>
         <div class="col" th:align="center">
-            <a th:href="currentView" class="material-icons" style="font-size:450%;color:white;">mood</a>
+            <a th:href="@{/currentView/{address}(address=${addressName})}" class="material-icons" style="font-size:450%;color:white;">mood</a>
         </div>
     </div>
     <div class="row align-items-center">
@@ -199,34 +199,85 @@
             </div>
         </div>
     </div>
+    <div class="row align-items-center" style="background: darkblue;">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 200%;font-weight:bold;">상세 정보</h1>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 200%;">
+                <span>측정 시간 : </span>
+                <span th:text="${observe.time}"></span>
+            </h1>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 200%;">
+                <span>초미세먼지 : </span>
+                <span th:text="${observe.pm25}"></span>
+            </h1>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col">
+            <h1 class="display-4" style="font-size: 200%;">
+                <span>미세먼지 : </span>
+                <span th:text="${observe.pm10}"></span>
+            </h1>
+        </div>
+    </div>
     <div class="row">
         <h1 class="display-4"> </h1>
     </div>
 </div>
 <script th:inline="javascript">
-    var lat = [[${address}]];
-    var map = new naver.maps.Map("map", {
-        zoom: 8,
-        mapTypeControl: true//,
-        //size : new naver.maps.Size(window.innerWidth*0.5, window.innerHeight*0.2)
+    var point = new naver.maps.Point([[${observe.gps_x}]], [[${observe.gps_y}]]);
+    var map = new naver.maps.Map('map', {
+        zoom: 10,
+        mapTypeControl: true,
+        center: point
     });
-
-    function searchAddressToCoordinate(address) {
-        naver.maps.Service.geocode({
-            address: address
-        }, function(status, response) {
-            if (status === naver.maps.Service.Status.ERROR) {
-                return alert('Something Wrong!');
-            }
-
-            var item = response.result.items[0],
-                point = new naver.maps.Point(item.point.x, item.point.y);
-
-            map.setCenter(point);
-        });
-    }
-
-    searchAddressToCoordinate(lat);
+    var marker = new naver.maps.Marker({
+        position: point,
+        map: map,
+        clickable: true
+    });
+    var infoWindow = new naver.maps.InfoWindow({
+        content: [[${address}]],
+        backgroundColor: '#FFFEBD',
+        borderColor: '#A29B92',
+        borderWidth: 2,
+        anchorColor: '#FFFEBD'
+    });
+    /*var contentString = [
+        '<h1 class="display-4 text-center" style="font-weight: bold;font-size: 200%;color:#70685F;" th:text="${address}"></h1>',
+        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">측정 시간</h4>',
+        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;" th:text="${observe.time}"></h4>',
+        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">초미세먼지 : ',
+        '<span th:text="${observe.pm25}"></span>',
+        '</h4>',
+        '<h4 class="display-4" style="font-size: 150%;color:#70685F;text-align: left;">미세먼지 : ',
+        '<span th:text="${observe.pm10}"></span>',
+        '</h4>'
+    ].join('');*/
+    /*var infoWindow = new naver.maps.InfoWindow({
+        content: contentString,
+        backgroundColor: '#FFFEBD',
+        borderColor: '#A29B92',
+        borderWidth: 2,
+        anchorColor: '#FFFEBD'
+    });
+    naver.maps.Event.addListener(marker, "click", function (e){
+       if(infoWindow.getMap()){
+           infoWindow.close();
+       }
+       else{
+           infoWindow.open(map, marker);
+       }
+    });
+    infoWindow.open(map, marker);*/
 </script>
 </body>
 </html>

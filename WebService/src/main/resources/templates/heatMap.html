@@ -103,5 +103,31 @@
         data: data
     });
 </script>
+<script th:inline="javascript">
+    var lat = [[${address}]];
+    var map = new naver.maps.Map("map", {
+        zoom: 8,
+        mapTypeControl: true//,
+        //size : new naver.maps.Size(window.innerWidth*0.5, window.innerHeight*0.2)
+    });
+
+    function searchAddressToCoordinate(address) {
+        naver.maps.Service.geocode({
+            address: address
+        }, function(status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return alert('Something Wrong!');
+            }
+
+            var item = response.result.items[0],
+                point = new naver.maps.Point(item.point.x, item.point.y);
+
+            map.setCenter(point);
+        });
+    }
+
+    searchAddressToCoordinate(lat);
+</script>
+
 </body>
 </html>
