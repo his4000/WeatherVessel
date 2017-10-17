@@ -100,7 +100,13 @@ public class KakaoAPIController {
     }
 
     private String setReplyMessage(String address){
-        Observe observe = observeRepository.findObserveByAddrIdOrderByTimeDesc(addressRepository.findAddressByAddrDongLike(address)).get(0);
+        List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTimeDesc(addressRepository.findAddressByAddrDongLike(address));
+        if(observeList.size() == 0){
+            return "해당하는 장소의 미세먼지 데이터가 없어요 (훌쩍)(훌쩍)\n\n"
+                    + "장소를 잘못 입력하셨거나 아직 드론이 활동하지 않는 장소인 것 같아요\n\n"
+                    + "다른 장소를 입력하시거나 관리자에게 문의해주세요 (신나)(신나)";
+        }
+        Observe observe = observeList.get(0);
         Long pm10 = observe.getPm10();
         Long pm25 = observe.getPm25();
 
