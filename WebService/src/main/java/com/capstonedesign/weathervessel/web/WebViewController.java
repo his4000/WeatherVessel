@@ -4,6 +4,7 @@ import com.capstonedesign.weathervessel.domain.Address;
 import com.capstonedesign.weathervessel.domain.AddressRepository;
 import com.capstonedesign.weathervessel.domain.Observe;
 import com.capstonedesign.weathervessel.domain.ObserveRepository;
+import com.capstonedesign.weathervessel.service.WeatherStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class WebViewController {
     @Autowired
     ObserveRepository observeRepository;
 
-    @RequestMapping(value = "/mapView/{address}")
+    /*@RequestMapping(value = "/mapView/{address}")
     public ModelAndView webViewing(@PathVariable String address) {
         ModelAndView mv = new ModelAndView();
         Address wantedAddress = addressRepository.findAddressByAddrDongLike(address);
@@ -47,7 +48,7 @@ public class WebViewController {
         mv.setViewName("monitor");
 
         return mv;
-    }
+    }*/
 
     @RequestMapping(value = "/currentView/{address}")
     public ModelAndView currentViewing(@PathVariable String address){
@@ -59,8 +60,40 @@ public class WebViewController {
         mv.addObject("address", wantedAddress.toString());
         mv.addObject("time", getNowTime());
         mv.addObject("observe", observeList.get(0));
-        mv.setViewName("current");
+
+        Long pm10 = observeList.get(0).getPm10();
+        Long pm25 = observeList.get(0).getPm25();
+
+        switch (getStatus(pm10, pm25)){
+            case VeryGood:
+                mv.setViewName("currentVeryGood");
+                break;
+            case Good:
+                mv.setViewName("currentGood");
+                break;
+            case Bad:
+                mv.setViewName("currentBad");
+                break;
+            case VeryBad:
+                mv.setViewName("currentVeryBad");
+                break;
+        }
         return mv;
+    }
+
+    public static WeatherStatus getStatus(Long pm10, Long pm25){
+        if(pm10 < 50 && pm25 < 25){
+            if(pm10 < 25 || pm25 < 12)
+                return WeatherStatus.VeryGood;
+            else
+                return WeatherStatus.Good;
+        }
+        else{
+            if(pm10 > 75 || pm25 > 38)
+                return WeatherStatus.VeryBad;
+            else
+                return WeatherStatus.Bad;
+        }
     }
 
     @RequestMapping(value = "/heatMapView")
