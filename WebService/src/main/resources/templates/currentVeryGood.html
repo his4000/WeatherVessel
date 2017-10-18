@@ -75,8 +75,7 @@
 <body>
 <div class="container-fluid bg-primary">
     <div class="row align-items-center">
-        <div class="col"></div>
-        <div class="col-8">
+        <div class="col">
             <div class="row">
                 <h1 class="display-4 text-center"> </h1>
             </div>
@@ -91,13 +90,9 @@
                 </div>
             </div>
         </div>
-        <div class="col" th:align="center">
-            <a onclick="changePage()" class="material-icons" style="font-size:450%;color:white;">place</a>
-        </div>
     </div>
     <div class="row align-items-center">
         <div class="col" th:align="center">
-            <div id="map" style="width: 100%; height: 300px; display: none;"></div>
             <div id="status" class="material-icons" style="font-size:3000%;">sentiment_very_satisfied</div>
         </div>
     </div>
@@ -120,76 +115,13 @@
     </div>
     <div class="row align-items-center" style="background: darkblue;">
         <div class="col">
-            <h1 class="display-4" style="font-size: 200%;font-weight:bold;">예 보</h1>
+            <h1 class="display-4" style="font-size: 200%;font-weight:bold;">지 도</h1>
         </div>
     </div>
     <div class="row">
         <h1 class="display-4"> </h1>
     </div>
-    <div class="row align-items-center" style="-webkit-overflow-scrolling: touch;">
-        <div class="col-1"></div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 700%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 230%;">14:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 700%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 230%;">15:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 700%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 230%;">16:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 700%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 230%;">17:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 700%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 230%;">18:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-1"></div>
-    </div>
+    <div id="map" style="width: 100%; height: 300px;"></div>
     <div class="row align-items-center" style="background: darkblue;">
         <div class="col">
             <h1 class="display-4" style="font-size: 200%;font-weight:bold;">상세 정보</h1>
@@ -242,18 +174,6 @@
         borderWidth: 2,
         anchorColor: '#FFFEBD'
     });
-    function changePage() {
-        var docStatus = document.getElementById('status');
-        var docMap = document.getElementById('map');
-        if(docMap.style.getPropertyValue('display') == 'none'){
-            docMap.style.removeProperty('display');
-            docStatus.style.setProperty('display', 'none');
-        }
-        else{
-            docStatus.style.removeProperty('display');
-            docMap.style.setProperty('display', 'none');
-        }
-    }
 </script>
 </body>
 </html>
