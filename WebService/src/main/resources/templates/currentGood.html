@@ -70,6 +70,7 @@
             div{font-size: 2rem;}
         }
     </style>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=eNueqceuff0oFPhe5uZD&amp;submodules=geocoder"></script>
 </head>
 <body>
 <div class="container-fluid" style="background: #1DD15B;color: white">
@@ -96,7 +97,8 @@
     </div>
     <div class="row align-items-center">
         <div class="col" th:align="center">
-            <i class="material-icons" style="font-size:3000%;">sentiment_satisfied</i>
+            <div id="map" style="width: 100%; height: 300px; display: none;"></div>
+            <div id="status" class="material-icons" style="font-size:3000%;">sentiment_satisfied</div>
         </div>
     </div>
     <div class="row align-items-center">
@@ -231,6 +233,37 @@
         <h1 class="display-4"> </h1>
     </div>
 </div>
-<script src="http://code.jquery.com/jquery.js"></script>
+<script th:inline="javascript">
+    var point = new naver.maps.Point([[${observe.gps_x}]], [[${observe.gps_y}]]);
+    var map = new naver.maps.Map('map', {
+        zoom: 10,
+        mapTypeControl: true,
+        center: point
+    });
+    var marker = new naver.maps.Marker({
+        position: point,
+        map: map,
+        clickable: true
+    });
+    var infoWindow = new naver.maps.InfoWindow({
+        content: [[${address}]],
+        backgroundColor: '#FFFEBD',
+        borderColor: '#A29B92',
+        borderWidth: 2,
+        anchorColor: '#FFFEBD'
+    });
+    function changePage() {
+        var docStatus = document.getElementById('status');
+        var docMap = document.getElementById('map');
+        if(docMap.style.getPropertyValue('display') == 'none'){
+            docMap.style.removeProperty('display');
+            docStatus.style.setProperty('display', 'none');
+        }
+        else{
+            docStatus.style.removeProperty('display');
+            docMap.style.setProperty('display', 'none');
+        }
+    }
+</script>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class WebViewController {
     @Autowired
     ObserveRepository observeRepository;
 
-    @RequestMapping(value = "/mapView/{address}")
+    /*@RequestMapping(value = "/mapView/{address}")
     public ModelAndView webViewing(@PathVariable String address) {
         ModelAndView mv = new ModelAndView();
         Address wantedAddress = addressRepository.findAddressByAddrDongLike(address);
@@ -48,7 +48,7 @@ public class WebViewController {
         mv.setViewName("monitor");
 
         return mv;
-    }
+    }*/
 
     @RequestMapping(value = "/currentView/{address}")
     public ModelAndView currentViewing(@PathVariable String address){
