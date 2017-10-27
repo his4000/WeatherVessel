@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,8 +74,8 @@ public class WebViewController {
         List<Drone> droneList = droneRepository.getAllBy();
         List<Observe> currentObserveList;
 
-        currentObserveList = droneList.stream().map(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).get(0)).collect(toList());
-
+        //currentObserveList = droneList.stream().map(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).get(0)).collect(toList());
+        currentObserveList  = droneList.stream().map(drone -> observeRepository.findObserveByDroneIdAndTimeGreaterThanEqualOrderByTimeDesc(drone, LocalDateTime.now().minusHours(4)).get(0)).collect(toList());
         log.info(currentObserveList.toString());
 
         mv.addObject("locations", currentObserveList);
