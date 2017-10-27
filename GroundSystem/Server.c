@@ -12,6 +12,7 @@
 #include "curlNaver.h"
 
 void stackInMySql(SENSOR_DATA*);
+extern int recordSensorData(SENSOR_DATA*);
 
 int main(void)
 {
@@ -67,6 +68,7 @@ int main(void)
 
 			stackInMySql(&data);
 		}
+	}
 }
 
 void stackInMySql(SENSOR_DATA* data){
@@ -85,6 +87,8 @@ void stackInMySql(SENSOR_DATA* data){
 
 	sprintf(currentTime, "%04d%02d%02d%02d%02d%02d",
 			t->tm_year+1900,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
+	recordSensorData(data);
+
 	sprintf(query, "insert into observe(gps_x, gps_y, pm10, pm25, time, address_id, drone_id) values(%f, %f, %ld, %ld, %s, %s, 1)", 
 			data->GPS_X, data->GPS_Y, data->dust_pm10, data->dust_pm25, currentTime, addressIndex);
 
