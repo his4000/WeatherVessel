@@ -71,6 +71,7 @@
         }
     </style>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=eNueqceuff0oFPhe5uZD&amp;submodules=geocoder"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <div class="container-fluid bg-primary">
@@ -81,7 +82,7 @@
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4 text-center" style="font-weight: bold;font-size: 200%" th:text="${address}"></h1>
+                    <h1 class="display-4 text-center" style="font-weight: bold;font-size: 300%" th:text="${address}"></h1>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -173,6 +174,27 @@
         borderColor: '#A29B92',
         borderWidth: 2,
         anchorColor: '#FFFEBD'
+    });
+    var heatVal = [];
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/getToday",
+        success: function (data) {
+            /*<![CDATA[*/
+            for(i=0; i < data.length; i++) {
+                /*]]>*/
+                console.log(data[i]);
+                var heat = data[i];
+                console.log(heat);
+                heatVal[i] = new naver.maps.visualization.WeightLocation(heat.gps_y, heat.gps_x, heat.pm10/2 + heat.pm25);
+            }
+        }
+    });
+
+    var heaMap = new naver.maps.visualization.HeatMap({
+        map: map,
+        data: heatVal
     });
 </script>
 </body>

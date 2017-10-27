@@ -71,6 +71,8 @@
         }
     </style>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=eNueqceuff0oFPhe5uZD&amp;submodules=geocoder"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=eNueqceuff0oFPhe5uZD&amp;submodules=visualization"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <div class="container-fluid" style="background: #FC7228;color: white">
@@ -175,6 +177,36 @@
         borderWidth: 2,
         anchorColor: '#FFFEBD'
     });
+    var heatVal = [];
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/getToday",
+        success: function (data) {
+            console.log(data);
+            /*<![CDATA[*/
+            for(i=0; i < data.length; i++) {
+                /*]]>*/
+                console.log(data[i]);
+                var heat = data[i];
+                console.log(heat);
+                heatVal[i] = new naver.maps.visualization.WeightedLocation(heat.gps_y, heat.gps_x, (heat.pm10/2 + heat.pm25)/10);
+                console.log(heatVal[i].weight);
+            }
+            var heatMap = new naver.maps.visualization.HeatMap({
+                map: map,
+                data: heatVal,
+                opacity: 0.4,
+                radius: 40
+            });
+        }
+    });
+
+    /*var heaMap = new naver.maps.visualization.HeatMap({
+        map: map,
+        data: heatVal
+    });*/
+    console.log('end to make heatmap');
 </script>
 </body>
 </html>

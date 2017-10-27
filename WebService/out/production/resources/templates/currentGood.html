@@ -75,14 +75,13 @@
 <body>
 <div class="container-fluid" style="background: #1DD15B;color: white">
     <div class="row align-items-center">
-        <div class="col"></div>
-        <div class="col-8">
+        <div class="col">
             <div class="row">
                 <h1 class="display-4 text-center"> </h1>
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4 text-center" style="font-weight: bold;font-size: 200%" th:text="${address}"></h1>
+                    <h1 class="display-4 text-center" style="font-weight: bold;font-size: 300%" th:text="${address}"></h1>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -91,13 +90,9 @@
                 </div>
             </div>
         </div>
-        <div class="col" th:align="center">
-            <a onclick="changePage()" class="material-icons" style="font-size:450%;color:white;">place</a>
-        </div>
     </div>
     <div class="row align-items-center">
         <div class="col" th:align="center">
-            <div id="map" style="width: 100%; height: 300px; display: none;"></div>
             <div id="status" class="material-icons" style="font-size:3000%;">sentiment_satisfied</div>
         </div>
     </div>
@@ -120,86 +115,13 @@
     </div>
     <div class="row align-items-center" style="background: #3F9C13;">
         <div class="col">
-            <h1 class="display-4" style="font-size: 200%;font-weight:bold;">예 보</h1>
+            <h1 class="display-4" style="font-size: 200%;font-weight:bold;">지 도</h1>
         </div>
     </div>
     <div class="row">
         <h1 class="display-4"> </h1>
     </div>
-    <div class="row align-items-center">
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">14:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">15:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">16:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">17:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">18:00</h1>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <i class="material-icons" style="font-size: 600%;">mood</i>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col" th:align="center">
-                    <h1 class="display-4" style="font-size: 200%;">19:00</h1>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="map" style="width: 100%; height: 300px;"></div>
     <div class="row align-items-center" style="background: #3F9C13;">
         <div class="col">
             <h1 class="display-4" style="font-size: 200%;font-weight:bold;">상세 정보</h1>
@@ -252,18 +174,6 @@
         borderWidth: 2,
         anchorColor: '#FFFEBD'
     });
-    function changePage() {
-        var docStatus = document.getElementById('status');
-        var docMap = document.getElementById('map');
-        if(docMap.style.getPropertyValue('display') == 'none'){
-            docMap.style.removeProperty('display');
-            docStatus.style.setProperty('display', 'none');
-        }
-        else{
-            docStatus.style.removeProperty('display');
-            docMap.style.setProperty('display', 'none');
-        }
-    }
 </script>
 </body>
 </html>
