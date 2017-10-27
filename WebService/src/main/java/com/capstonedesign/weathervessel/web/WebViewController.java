@@ -1,9 +1,6 @@
 package com.capstonedesign.weathervessel.web;
 
-import com.capstonedesign.weathervessel.domain.Address;
-import com.capstonedesign.weathervessel.domain.AddressRepository;
-import com.capstonedesign.weathervessel.domain.Observe;
-import com.capstonedesign.weathervessel.domain.ObserveRepository;
+import com.capstonedesign.weathervessel.domain.*;
 import com.capstonedesign.weathervessel.service.WeatherStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -12,6 +9,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,10 +18,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static java.util.stream.Collectors.toList;
 
 @Controller
 @EnableAutoConfiguration
@@ -34,6 +36,8 @@ public class WebViewController {
     AddressRepository addressRepository;
     @Autowired
     ObserveRepository observeRepository;
+    @Autowired
+    DroneRepository droneRepository;
 
     /*@RequestMapping(value = "/mapView/{address}")
     public ModelAndView webViewing(@PathVariable String address) {
@@ -49,6 +53,36 @@ public class WebViewController {
 
         return mv;
     }*/
+
+    @RequestMapping(value = "/getLoc", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Observe> getLoc(){
+        return droneRepository.getAllBy().stream().map(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).get(0)).collect(toList());
+    }
+
+    @RequestMapping(value = "/getToday", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Observe> getToday(){
+        LocalDateTime localDateTime = LocalDateTime.of(2017, 10, 19, 14, 0, 0);
+        return observeRepository.findObserveByTimeGreaterThanEqual(localDateTime.minusHours(4));
+    }
+
+    @RequestMapping(value = "/monitoring")
+    public ModelAndView monitoringView(){
+        ModelAndView mv = new ModelAndView();
+        List<Drone> droneList = droneRepository.getAllBy();
+        List<Observe> currentObserveList;
+
+        currentObserveList = droneList.stream().map(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).get(0)).collect(toList());
+
+        log.info(currentObserveList.toString());
+
+        mv.addObject("locations", currentObserveList);
+        mv.addObject("time", getNowTime());
+        mv.setViewName("monitor");
+
+        return mv;
+    }
 
     @RequestMapping(value = "/currentView/{address}")
     public ModelAndView currentViewing(@PathVariable String address){
