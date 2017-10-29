@@ -14,18 +14,11 @@
 #define PORT 9293
 #define DRONE_COUNT 36
 
-typedef struct droneSocket{
-	int drone_id;
-	struct sockaddr_in sock;
-}D_SOCK;
-
-void stackInMySql(SENSOR_DATA*, int);
-int getDestSocket(int);
+void stackInMySql(SENSOR_DATA*);
+int getDestSocket(struct sockaddr_in*);
 extern int recordSensorData(SENSOR_DATA*);
 
-//D_SOCK sockets[DRONE_COUNT];
-//struct sockaddr_in sockets[DRONE_COUNT];
-int drones[DRONE_COUNT];
+D_SOCK sockets[DRONE_COUNT];
 unsigned int nClient=0;
 
 int main(void)
@@ -33,13 +26,12 @@ int main(void)
 	int sock;           /* Socket */
 	int client_addr_size;       /* Client address size */
 	int recvStructSize;     /* size of received struct */
-	int index;
+
+	D_SOCK sockets[DRONE_COUNT];
 
 	struct sockaddr_in server_addr; /* Server address */
 	struct sockaddr_in client_addr; /* Client address */
 	SENSOR_DATA data;
-
-	printf("Complete to initializing\n");
 
 	printf("size of SENSOR_DATA : %d\n", sizeof(SENSOR_DATA));
 	printf("Port : %d\n", PORT);
@@ -77,22 +69,12 @@ int main(void)
 					(struct sockaddr*)&client_addr, &client_addr_size))<0)
 			printf("recvfrom() failed");
 		else{
-			printf("Drone ID : %d\n", data.drone_id);
 			printf("Dust_25 : %ld\n", data.dust_pm25);
 			printf("Dust_10 : %ld\n", data.dust_pm10);
 			printf("GPS_X : %.5f\n", data.GPS_X);
 			printf("GPS_Y : %.5f\n", data.GPS_Y);
 	
-			if((index = getDestSocket(data.drone_id)) == nClient){  //New Socket
-				//D_SOCK tmp;
-				//tmp.drone_id = nClient+1;
-				//memcpy(&(tmp.sock), &client_addr, sizeof(struct sockaddr_in));
-				//memcpy(&sockets[nClient], &client_addr, sizeof(D_SOCK));
-				drones[index] = data.drone_id;
-				nClient++;
-			}
-
-			stackInMySql(&data, data.drone_id);
+			stackInMySql(&data);
 		}
 	}
 }
@@ -100,7 +82,7 @@ int main(void)
 void stackInMySql(SENSOR_DATA* data, int drone_id){
 	time_t timer;
 	struct tm* t;
-	char addressIndex[20] = "null";
+	char addressIndex[20] = "NULL";
 	int integerAddressIndex;
 	char query[255];
 	char currentTime[20];
@@ -115,7 +97,7 @@ void stackInMySql(SENSOR_DATA* data, int drone_id){
 			t->tm_year+1900,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
 	recordSensorData(data);
 
-	if(strncmp(addressIndex, "null", 20)!=0){
+	if(strncmp(addressIndex, "NULL", 20)!=0){
 		sprintf(query
 				, "insert into observe(gps_x, gps_y, pm10, pm25, time, address_id, drone_id) values(%f, %f, %ld, %ld, %s, %s, %d)", 
 				data->GPS_X, 
@@ -124,7 +106,7 @@ void stackInMySql(SENSOR_DATA* data, int drone_id){
 				data->dust_pm25, 
 				currentTime, 
 				addressIndex, 
-				drone_id);
+				DRONE_ID);
 
 		printf("Query : %s\n", query);
 
@@ -133,11 +115,11 @@ void stackInMySql(SENSOR_DATA* data, int drone_id){
 	}
 }
 
-int getDestSocket(int target_drone_id){
+int getDestSocket(struct sockaddr_in* target){
 	int i;
 
 	for(i=0;i<nClient;i++){
-		if(target_drone_id == drones[i])
+		if(memcmp(target, &((sockets[i])->sock), sizeof(struct sockaddr_in)) == 0)
 			break;
 	}
 
