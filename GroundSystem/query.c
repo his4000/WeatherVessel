@@ -39,6 +39,7 @@ int sendQuery(char* query){
 	}
 
 	mysql_close(connection);
+	printf("Success to send query\n");
 
 	return 0;
 }

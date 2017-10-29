@@ -2,6 +2,7 @@
 #define H_DATA
 
 typedef struct Result{
+	int drone_id;
 	unsigned long dust_pm25;
 	unsigned long dust_pm10;
 	float GPS_X;
