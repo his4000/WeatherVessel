@@ -28,7 +28,6 @@
     function getData() {
         $.getJSON('dust.json', function(data){
             console.log(data);
-            count++;
             document.getElementById('pm10').innerHTML = data.pm10;
             document.getElementById('pm25').innerHTML = data.pm25;
         });
