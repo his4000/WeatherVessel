@@ -2,23 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
     <title>Dust Monitor</title>
+    <style>
+        .baseFrame{
+            width: 100%;
+            position: fixed;
+            top: 15%;
+            left: 10%;
+        }
+        span{
+            font-weight:bold;
+            font-family: "HelveticaNeueLT Pro 45 Lt";
+            color: #999999;
+            font-size: 80px;
+        }
+        .value{
+            font-size: 200px;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body onload="getData()">
 <script>
-    var count = 0;
     function getData() {
         $.getJSON('dust.json', function(data){
             console.log(data);
             count++;
-            document.getElementById('pannel').innerHTML = data.pm10 + ' ' + data.pm25;
-            document.getElementById('count').innerHTML = count;
+            document.getElementById('pm10').innerHTML = data.pm10;
+            document.getElementById('pm25').innerHTML = data.pm25;
         });
     }
     setInterval(getData, 3000);
 </script>
-<div id="pannel"></div>
-<div id="count"></div>
+<div id="container" class="baseFrame">
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <span class="english">PM10 </span>
+                <span id="pm10" class="value"></span>
+                <span class="english"> µg/m³</span>
+            </div>
+            <div class="row">
+                <span class="english">PM2.5 </span>
+                <span id="pm25" class="value"></span>
+                <span class="english"> µg/m³</span>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
