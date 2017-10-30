@@ -8,7 +8,6 @@
         .baseFrame{
             width: 100%;
             position: fixed;
-            top: 15%;
             left: 10%;
         }
         span{
@@ -16,9 +15,18 @@
             font-family: "HelveticaNeueLT Pro 45 Lt";
             color: #999999;
             font-size: 80px;
+            height: 400px;
+            display: table-cell;
+            vertical-align: bottom;
         }
         .value{
-            font-size: 200px;
+            font-size: 250px;
+        }
+        .row{
+            display: flex;
+        }
+        .col-sm-6{
+            height: 400px;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -36,17 +44,25 @@
 </script>
 <div id="container" class="baseFrame">
     <div class="row">
-        <div class="col">
-            <div class="row">
-                <span class="english">PM10 </span>
-                <span id="pm10" class="value"></span>
-                <span class="english"> µg/m³</span>
-            </div>
-            <div class="row">
-                <span class="english">PM2.5 </span>
-                <span id="pm25" class="value"></span>
-                <span class="english"> µg/m³</span>
-            </div>
+        <div class="col-sm-6 col-md-3" style="text-align: right">
+            <span class="english">PM10</span>
+        </div>
+        <div class="col-sm-6 col-md-4" style="text-align: right">
+            <span id="pm10" class="value">51</span>
+        </div>
+        <div class="col-sm-6 col-md-2">
+            <span class="english">µg/m³</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-3" style="text-align: right">
+            <span class="english">PM2.5</span>
+        </div>
+        <div class="col-sm-6 col-md-4" style="text-align: right">
+            <span id="pm25" class="value">21</span>
+        </div>
+        <div class="col-sm-6 col-md-2">
+            <span class="english">µg/m³</span>
         </div>
     </div>
 </div>
