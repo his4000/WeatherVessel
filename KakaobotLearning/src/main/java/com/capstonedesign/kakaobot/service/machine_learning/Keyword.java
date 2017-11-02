@@ -12,7 +12,7 @@ public class Keyword {
         this.keyword = keyword;
         this.probDistribution = new double[Learning.numAttr];
 
-        probDistribution[Learning.FORECAST] = 0.0;
+        probDistribution[Learning.GREETING] = 0.0;
         probDistribution[Learning.CURRENT] = 0.0;
         probDistribution[Learning.MONITOR] = 0.0;
     }
