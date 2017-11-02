@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    <title>Dust Monitor</title>
+    <style>
+        .baseFrame{
+            width: 100%;
+            position: fixed;
+            left: 15%;
+        }
+        span{
+            font-weight:bold;
+            font-family: "HelveticaNeueLT Pro 45 Lt";
+            color: #999999;
+            font-size: 80px;
+            height: 400px;
+            display: table-cell;
+            vertical-align: bottom;
+        }
+        .value{
+            font-size: 250px;
+            line-height: 100%;
+        }
+        .row{
+            display: flex;
+        }
+        .col-sm-6{
+            height: 400px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body onload="getData()">
+<script>
+    function getData() {
+        $.getJSON('dust.json', function(data){
+            console.log(data);
+            document.getElementById('pm10').innerHTML = data.pm10;
+            document.getElementById('pm25').innerHTML = data.pm25;
+        });
+    }
+    setInterval(getData, 3000);
+</script>
+<div id="container" class="baseFrame">
+    <div class="row">
+        <div class="col-sm-6 col-md-4" style="text-align: right">
+            <span>PM10</span>
+        </div>
+        <div class="col-sm-6 col-md-3" style="text-align: right">
+            <span id="pm10" class="value">51</span>
+        </div>
+        <div class="col-sm-6 col-md-2">
+            <span class="english">µg/m³</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-4" style="text-align: right">
+            <span class="english">PM2.5</span>
+        </div>
+        <div class="col-sm-6 col-md-3" style="text-align: right">
+            <span id="pm25" class="value">21</span>
+        </div>
+        <div class="col-sm-6 col-md-2">
+            <span class="english">µg/m³</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

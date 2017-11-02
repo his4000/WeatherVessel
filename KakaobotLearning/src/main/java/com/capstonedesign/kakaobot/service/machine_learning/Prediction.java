@@ -37,8 +37,8 @@ public class Prediction {
         if(observe)
             Arrays.stream(probs).forEach(prob -> log.info(String.valueOf(prob)));
 
-        if(maxIndex == Learning.FORECAST)
-            return "forecase";
+        if(maxIndex == Learning.GREETING)
+            return "greeting";
         if(maxIndex == Learning.CURRENT)
             return "current";
         else

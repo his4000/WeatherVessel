@@ -21,8 +21,8 @@ public class KeywordModel {
     public void addProbWithStr(List<Keyword> keywords, String keyword, String attrIndexStr){
         int attrIndex = -1;
 
-        if(attrIndexStr.equalsIgnoreCase("forecast"))
-            attrIndex = Learning.FORECAST;
+        if(attrIndexStr.equalsIgnoreCase("greeting"))
+            attrIndex = Learning.GREETING;
         else if(attrIndexStr.equalsIgnoreCase("current"))
             attrIndex = Learning.CURRENT;
         else if(attrIndexStr.equalsIgnoreCase("monitor"))

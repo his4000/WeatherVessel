@@ -28,7 +28,7 @@ public class Learning{
     public static List<Keyword> keywords;
 
     public static final int numAttr = 3;
-    public static final int FORECAST = 0;
+    public static final int GREETING = 0;
     public static final int CURRENT = 1;
     public static final int MONITOR = 2;
 
