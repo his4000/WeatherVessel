@@ -3,10 +3,8 @@ package com.capstonedesign.weathervessel.web;
 import com.capstonedesign.weathervessel.domain.AddressRepository;
 import com.capstonedesign.weathervessel.domain.Observe;
 import com.capstonedesign.weathervessel.domain.ObserveRepository;
-import com.capstonedesign.weathervessel.service.messaging.Message;
-import com.capstonedesign.weathervessel.service.messaging.MessageButton;
-import com.capstonedesign.weathervessel.service.messaging.RequestMessage;
-import com.capstonedesign.weathervessel.service.messaging.ResponseMessage;
+import com.capstonedesign.weathervessel.service.messaging.*;
+import com.capstonedesign.weathervessel.service.messaging.current.CurrentReply;
 import com.capstonedesign.weathervessel.service.natural_language_processing.NaturalLanguageProcessing;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -77,8 +75,9 @@ public class KakaoAPIController {
             log.info("No Answer");
         }
         else {
+            Reply reply;
             if(result.equalsIgnoreCase("current")) {
-                List<KoreanTokenJava> addresses = naturalLanguageProcessing.filterAddress(naturalLanguageProcessing.textTokenizing(content));
+                /*List<KoreanTokenJava> addresses = naturalLanguageProcessing.filterAddress(naturalLanguageProcessing.textTokenizing(content));
 
                 if(addresses.isEmpty())
                     responseMessage.setMessage(new Message("현재 서울 지역 미세먼지 정보만 제공하고 있어요. 서울 어디의 날씨가 궁금하세요?"));
@@ -87,7 +86,9 @@ public class KakaoAPIController {
                 else {
                     String address = addresses.get(0).getText();
                     responseMessage.setMessage(setReplyMessage(address));
-                }
+                }*/
+                reply = new CurrentReply();
+                responseMessage.setMessage(reply.getReplyMessage(content));
             }
             else
                 responseMessage.setMessage(new Message(result));
@@ -97,7 +98,7 @@ public class KakaoAPIController {
         return responseMessage;
     }
 
-    private Message setReplyMessage(String address){
+  /*  private Message setReplyMessage(String address){
         String message;
         String url = "http://ec2-52-78-23-33.ap-northeast-2.compute.amazonaws.com:8090/currentView/" + address;
         List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTimeDesc(addressRepository.findAddressByAddrDongLike(address));
@@ -138,7 +139,7 @@ public class KakaoAPIController {
                             + "다시 시도해도 정보를 찾지 못할 경우 서비스 지역이 아닐 수 있어요";
                     return new Message(message);
         }
-    }
+    }*/
 
     private String classifying(String encodedContent) throws Exception{
         String textToken = URLEncoder.encode(encodedContent, "UTF-8");
