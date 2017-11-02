@@ -88,7 +88,7 @@ public class KakaoAPIController {
                     responseMessage.setMessage(setReplyMessage(address));
                 }*/
                 reply = new CurrentReply();
-                responseMessage.setMessage(reply.getReplyMessage(content));
+                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository));
             }
             else
                 responseMessage.setMessage(new Message(result));

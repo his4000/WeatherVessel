@@ -15,15 +15,8 @@ import java.util.List;
 
 public class CurrentReply implements Reply {
 
-    @Autowired
-    ObserveRepository observeRepository;
-    @Autowired
-    AddressRepository addressRepository;
-    @Autowired
-    NaturalLanguageProcessing naturalLanguageProcessing;
-
     @Override
-    public Message getReplyMessage(String content){
+    public Message getReplyMessage(String content, NaturalLanguageProcessing naturalLanguageProcessing, ObserveRepository observeRepository, AddressRepository addressRepository){
         List<KoreanTokenJava> addresses = naturalLanguageProcessing.filterAddress(naturalLanguageProcessing.textTokenizing(content));
 
         if(addresses.isEmpty())
@@ -31,10 +24,10 @@ public class CurrentReply implements Reply {
         else if(addresses.size() > 1)
             return new Message("하나의 지역만 입력해 주세요");
         else
-            return setReplyMessage(addresses.get(0).getText());
+            return setReplyMessage(addresses.get(0).getText(), observeRepository, addressRepository);
     }
 
-    private Message setReplyMessage(String address){
+    private Message setReplyMessage(String address, ObserveRepository observeRepository, AddressRepository addressRepository){
         CurrentStatus currentStatus;
         //String message;
         String url = "http://ec2-52-78-23-33.ap-northeast-2.compute.amazonaws.com:8090/currentView/" + address;
