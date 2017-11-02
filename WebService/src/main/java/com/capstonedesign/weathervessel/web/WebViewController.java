@@ -75,17 +75,17 @@ public class WebViewController {
     @RequestMapping(value = "/monitoring")
     public ModelAndView monitoringView(){
         ModelAndView mv = new ModelAndView();
-        List<Drone> droneList = droneRepository.getAllBy();
-        List<Observe> currentObserveList;
+        //List<Drone> droneList = droneRepository.getAllBy();
+        List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
 
-        currentObserveList = droneList.stream().map(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).get(0)).collect(toList());
+        /*currentObserveList = droneList.stream().map(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).get(0)).collect(toList());
         log.info(observeRepository.findObserveByDroneIdOrderByTimeDesc(droneList.get(0)).toString());
         log.info("/////////////////" + observeRepository.findObserveByDroneIdAndTimeGreaterThanEqualOrderByTimeDesc(droneList.get(0), LocalDateTime.now().minusHours(4)));
         currentObserveList  = droneList
                 .stream()
                 .filter(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).size() > 0)
                 .map(drone -> observeRepository.findObserveByDroneIdAndTimeGreaterThanEqualOrderByTimeDesc(drone, LocalDateTime.now().minusHours(4)).get(0))
-                .collect(toList());
+                .collect(toList());*/
         log.info(currentObserveList.toString());
 
         mv.addObject("locations", currentObserveList);
