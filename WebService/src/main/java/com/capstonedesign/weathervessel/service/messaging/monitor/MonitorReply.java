@@ -22,7 +22,7 @@ public class MonitorReply implements Reply {
                 + "\n입니다.";
 
         return new Message(text
-                , new MessageButton("http://localhost:8090/pointMonitoring/" + latestObserve.getGps_y() + "%" + latestObserve.getGps_x(), label)
+                , new MessageButton("http://localhost:8090/pointMonitoring/" + latestObserve.getGps_y() + "-" + latestObserve.getGps_x(), label)
                 , new Photo("http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com/Erlecopter.jpg"));
     }
 }

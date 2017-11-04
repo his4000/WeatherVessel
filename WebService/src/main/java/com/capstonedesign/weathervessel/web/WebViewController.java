@@ -97,7 +97,7 @@ public class WebViewController {
     @RequestMapping(value = "/pointMonitoring/{gps}")
     public ModelAndView pointMonitoringView(@PathVariable String gps){
         ModelAndView mv = new ModelAndView();
-        String[] gpsString = gps.split("%");
+        String[] gpsString = gps.split("-");
         String lat = gpsString[0];
         String lng = gpsString[1];
         List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
