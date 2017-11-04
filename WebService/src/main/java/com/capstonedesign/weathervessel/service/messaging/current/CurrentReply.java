@@ -9,6 +9,7 @@ import com.capstonedesign.weathervessel.service.natural_language_processing.Natu
 import com.capstonedesign.weathervessel.web.WebViewController;
 import org.openkoreantext.processor.KoreanTokenJava;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentReply implements Reply {
@@ -16,6 +17,10 @@ public class CurrentReply implements Reply {
     @Override
     public Message getReplyMessage(String content, NaturalLanguageProcessing naturalLanguageProcessing, ObserveRepository observeRepository, AddressRepository addressRepository){
         List<KoreanTokenJava> addresses = naturalLanguageProcessing.filterAddress(naturalLanguageProcessing.textTokenizing(content));
+
+        if(!isToday(content))
+            return new Message("지금은 현재 미세먼지 정보만 제공하고 있어요.(훌쩍)(훌쩍)\n\n"
+                    + "현재의 미세먼지 값을 알고 싶은 위치를 ~동 과 함께 입력해주세요(하하)(하하)");
 
         if(addresses.isEmpty())
             return new Message("현재 서울 지역 미세먼지 정보만 제공하고 있어요. 서울 어디의 날씨가 궁금하세요?");
@@ -51,5 +56,27 @@ public class CurrentReply implements Reply {
         }
 
         return currentStatus.getReplyText(String.valueOf(pm10), String.valueOf(pm25), address, url);
+    }
+
+    private boolean isToday(String content){
+        List<String> notTodayList = new ArrayList<>();
+
+        notTodayList.add("내일");
+        notTodayList.add("모레");
+        notTodayList.add("낼모레");
+        notTodayList.add("어제");
+        notTodayList.add("그저께");
+        notTodayList.add("그제");
+        notTodayList.add("엊그제");
+        notTodayList.add("엊그저께");
+        notTodayList.add("내년");
+        notTodayList.add("작년");
+
+        for(String tmp : notTodayList){
+            if(content.contains(tmp))
+                return false;
+        }
+
+        return true;
     }
 }
