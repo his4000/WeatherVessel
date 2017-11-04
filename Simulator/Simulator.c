@@ -11,7 +11,7 @@
 
 #define BUFF_SIZE 1024
 #define IPSIZE 20
-#define IP_ADDR "192.168.235.1"
+#define IP_ADDR "192.168.0.10"
 #define PORT 9293
 
 #define DELAY_TIME 10
