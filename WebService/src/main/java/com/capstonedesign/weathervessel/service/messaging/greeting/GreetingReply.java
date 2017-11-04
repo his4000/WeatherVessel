@@ -15,6 +15,6 @@ public class GreetingReply implements Reply {
             "카카오톡 플러스 친구 '날씨 드론'을 이용하여 현재 미세먼지 측정 정보를 제공하는 Chatbot 입니다.";
 
     public Message getReplyMessage(String content, NaturalLanguageProcessing naturalLanguageProcessing, ObserveRepository observeRepository, AddressRepository addressRepository, DroneRepository droneRepository){
-        return new Message(greetingText, new Photo("http://localhost/Logo.png"));
+        return new Message(greetingText, new Photo("http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com/Logo.png"));
     }
 }
