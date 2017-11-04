@@ -11,8 +11,11 @@
 #include "query.h"
 #include "curlNaver.h"
 
+#define JSONPATH "./realTimeWebServer/dust.json"
+
 #define PORT 9293
 #define DRONE_COUNT 36
+#define STR_SIZE 256
 
 typedef struct droneSocket{
 	int drone_id;
@@ -21,10 +24,9 @@ typedef struct droneSocket{
 
 void stackInMySql(SENSOR_DATA*, int);
 int getDestSocket(int);
+int makeJson(float, float);
 extern int recordSensorData(SENSOR_DATA*);
 
-//D_SOCK sockets[DRONE_COUNT];
-//struct sockaddr_in sockets[DRONE_COUNT];
 int drones[DRONE_COUNT];
 unsigned int nClient=0;
 
@@ -83,11 +85,9 @@ int main(void)
 			printf("GPS_X : %.5f\n", data.GPS_X);
 			printf("GPS_Y : %.5f\n", data.GPS_Y);
 	
+			makeJson(data.dust_pm10, data.dust_pm25);
+
 			if((index = getDestSocket(data.drone_id)) == nClient){  //New Socket
-				//D_SOCK tmp;
-				//tmp.drone_id = nClient+1;
-				//memcpy(&(tmp.sock), &client_addr, sizeof(struct sockaddr_in));
-				//memcpy(&sockets[nClient], &client_addr, sizeof(D_SOCK));
 				drones[index] = data.drone_id;
 				nClient++;
 			}
@@ -142,4 +142,30 @@ int getDestSocket(int target_drone_id){
 	}
 
 	return i;
+}
+
+int makeJson(float pm10, float pm25){
+	char ret[STR_SIZE] = "{\"pm10\":";
+	char s_pm10[STR_SIZE];
+	char s_pm25[STR_SIZE];
+	FILE* fp;
+
+	sprintf(s_pm10, "%.0f", pm10);
+	sprintf(s_pm25, "%.0f", pm25);
+
+	strcat(ret, s_pm10);
+	strcat(ret, ",\"pm25\":");
+	strcat(ret, s_pm25);
+	strcat(ret, "}");
+
+	if((fp = fopen(JSONPATH, "w")) == NULL){
+		printf("JSON file open error\n");
+		return -1;
+	}
+
+	fputs(ret, fp);
+
+	fclose(fp);
+
+	return 0;
 }
