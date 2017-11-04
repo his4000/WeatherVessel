@@ -105,9 +105,11 @@
     var lat = [[${lat}]];
     var lng = [[${lng}]];
     console.log(locations);
+    console.log(lat);
+    console.log(lng);
     var markers = [];
     var map = new naver.maps.Map('map', {
-        zoom: 8,
+        zoom: 10,
         mapTypeControl: true,
         center: new naver.maps.Point(lng, lat)
     });
