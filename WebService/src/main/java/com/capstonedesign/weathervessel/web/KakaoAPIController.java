@@ -7,6 +7,7 @@ import com.capstonedesign.weathervessel.domain.ObserveRepository;
 import com.capstonedesign.weathervessel.service.messaging.*;
 import com.capstonedesign.weathervessel.service.messaging.current.CurrentReply;
 import com.capstonedesign.weathervessel.service.messaging.greeting.GreetingReply;
+import com.capstonedesign.weathervessel.service.messaging.monitor.MonitorReply;
 import com.capstonedesign.weathervessel.service.natural_language_processing.NaturalLanguageProcessing;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -104,6 +105,8 @@ public class KakaoAPIController {
             return new GreetingReply();
         else if(category.equalsIgnoreCase("current"))
             return new CurrentReply();
+        else if(category.equalsIgnoreCase("monitor"))
+            return new MonitorReply();
         else
             return null;
     }
