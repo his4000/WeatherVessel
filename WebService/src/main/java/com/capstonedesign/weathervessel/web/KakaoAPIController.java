@@ -5,6 +5,7 @@ import com.capstonedesign.weathervessel.domain.Observe;
 import com.capstonedesign.weathervessel.domain.ObserveRepository;
 import com.capstonedesign.weathervessel.service.messaging.*;
 import com.capstonedesign.weathervessel.service.messaging.current.CurrentReply;
+import com.capstonedesign.weathervessel.service.messaging.greeting.GreetingReply;
 import com.capstonedesign.weathervessel.service.natural_language_processing.NaturalLanguageProcessing;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -81,6 +82,10 @@ public class KakaoAPIController {
         }
         else {
             Reply reply;
+            if(result.equalsIgnoreCase("greeting")){
+                reply = new GreetingReply();
+                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository));
+            }
             if(result.equalsIgnoreCase("current")) {
                 reply = new CurrentReply();
                 responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository));
