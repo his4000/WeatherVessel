@@ -52,7 +52,7 @@ public class KakaoAPIController {
     @RequestMapping(value = "/message", method = RequestMethod.POST)
     public ResponseMessage message(@RequestBody RequestMessage requestMessage){
         ResponseMessage responseMessage = new ResponseMessage();
-        String result = "";
+        String category = "";
         String content = requestMessage.getContent();
         log.info("make text" + content);
 
@@ -67,35 +67,42 @@ public class KakaoAPIController {
         }
         else {
             try {
-                result = classifying(content);
+                category = classifying(content);
             } catch (Exception e) {
                 log.info("Exception occurred in Classifying");
             }
         }
 
-        if(result.equals("")) {
+        /*if(category.equals("")) {
             responseMessage.setMessage(new Message(
                     "의도를 잘 파악하지 못했어요(훌쩍)(훌쩍)\n\n"
                     + "좀 더 상세히 말씀 해주시겠어요?(하하)(하하)"
             ));
             log.info("No Answer");
         }
-        else {
-            Reply reply;
-            if(result.equalsIgnoreCase("greeting")){
-                reply = new GreetingReply();
-                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository));
-            }
-            if(result.equalsIgnoreCase("current")) {
-                reply = new CurrentReply();
-                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository));
-            }
+        else {*/
+            Reply reply = getReply(category);
+            if(reply == null)
+                responseMessage.setMessage(new Message(
+                        "의도를 잘 파악하지 못했어요(훌쩍)(훌쩍)\n\n"
+                                + "좀 더 상세히 말씀 해주시겠어요?(하하)(하하)"
+                ));
             else
-                responseMessage.setMessage(new Message(result));
-            log.info("Answer : " + result);
-        }
+                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository));
+
+            log.info("Answer : " + category);
+        //}
 
         return responseMessage;
+    }
+
+    private Reply getReply(String category){
+        if(category.equalsIgnoreCase("greeting"))
+            return new GreetingReply();
+        else if(category.equalsIgnoreCase("current"))
+            return new CurrentReply();
+        else
+            return null;
     }
 
     private String classifying(String encodedContent) throws Exception{
