@@ -95,7 +95,7 @@ public class KakaoAPIController {
 
     private String classifying(String encodedContent) throws Exception{
         String textToken = URLEncoder.encode(encodedContent, "UTF-8");
-        String learningServerURL = "http://ec2-52-78-148-146.ap-northeast-2.compute.amazonaws.com:8090/getText";
+        String learningServerURL = "http://localhost:8091/getText";
         String ret;
         URL url = new URL(learningServerURL);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
