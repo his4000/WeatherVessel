@@ -1,14 +1,28 @@
 package com.capstonedesign.weathervessel.service.messaging.monitor;
 
-import com.capstonedesign.weathervessel.domain.AddressRepository;
-import com.capstonedesign.weathervessel.domain.ObserveRepository;
+import com.capstonedesign.weathervessel.domain.*;
 import com.capstonedesign.weathervessel.service.messaging.Message;
+import com.capstonedesign.weathervessel.service.messaging.MessageButton;
+import com.capstonedesign.weathervessel.service.messaging.Photo;
 import com.capstonedesign.weathervessel.service.messaging.Reply;
 import com.capstonedesign.weathervessel.service.natural_language_processing.NaturalLanguageProcessing;
 
 public class MonitorReply implements Reply {
 
-    public Message getReplyMessage(String content, NaturalLanguageProcessing naturalLanguageProcessing, ObserveRepository observeRepository, AddressRepository addressRepository){
-        return new Message("monitor");
+    private final String label = "드론 위치 보기";
+
+    public Message getReplyMessage(String content, NaturalLanguageProcessing naturalLanguageProcessing, ObserveRepository observeRepository, AddressRepository addressRepository, DroneRepository droneRepository){
+        Drone masterDrone = droneRepository.findByDroneId(1);
+        Observe latestObserve = observeRepository.findObserveByDroneIdOrderByTimeDesc(masterDrone).get(0);
+        String text = "현재 미세먼지 측정중인 드론은 Erle Robotics 사의 Erle-copter 입니다.\n\n"
+                + "현재 드론의 위치는 " + latestObserve.getAddrId().toString() + "이며, \n\n"
+                + "현재 드론의 GPS 좌표는"
+                + "\n위도 : " + latestObserve.getGps_y()
+                + "\n경도 : " + latestObserve.getGps_x()
+                + "\n입니다.";
+
+        return new Message(text
+                , new MessageButton("http://localhost:8090/pointMonitoring/" + latestObserve.getGps_y() + "%" + latestObserve.getGps_x(), label)
+                , new Photo("http://localhost/Erlecopter.jpg"));
     }
 }

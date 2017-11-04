@@ -22,6 +22,12 @@ public class Message {
         this.photo = photo;
     }
 
+    public Message(String text, MessageButton messageButton, Photo photo){
+        this.text = text;
+        this.message_button = messageButton;
+        this.photo = photo;
+    }
+
     @Override
     public String toString() {
         return "Message [text=" + text + "]";

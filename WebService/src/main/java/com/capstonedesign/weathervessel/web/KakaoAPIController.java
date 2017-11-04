@@ -1,6 +1,7 @@
 package com.capstonedesign.weathervessel.web;
 
 import com.capstonedesign.weathervessel.domain.AddressRepository;
+import com.capstonedesign.weathervessel.domain.DroneRepository;
 import com.capstonedesign.weathervessel.domain.Observe;
 import com.capstonedesign.weathervessel.domain.ObserveRepository;
 import com.capstonedesign.weathervessel.service.messaging.*;
@@ -33,6 +34,8 @@ public class KakaoAPIController {
     ObserveRepository observeRepository;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    DroneRepository droneRepository;
 
     @RequestMapping("/")
     public String hello(){
@@ -88,7 +91,7 @@ public class KakaoAPIController {
                                 + "좀 더 상세히 말씀 해주시겠어요?(하하)(하하)"
                 ));
             else
-                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository));
+                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository, droneRepository));
 
             log.info("Answer : " + category);
         //}

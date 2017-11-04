@@ -68,8 +68,7 @@ public class WebViewController {
     @RequestMapping(value = "/getToday", method = RequestMethod.GET)
     @ResponseBody
     public List<Observe> getToday(){
-        LocalDateTime localDateTime = LocalDateTime.of(2017, 10, 19, 14, 0, 0);
-        return observeRepository.findObserveByTimeGreaterThanEqual(localDateTime.minusHours(4));
+        return observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
     }
 
     @RequestMapping(value = "/monitoring")
@@ -91,6 +90,24 @@ public class WebViewController {
         mv.addObject("locations", currentObserveList);
         mv.addObject("time", getNowTime());
         mv.setViewName("monitor");
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/pointMonitoring/{gps}")
+    public ModelAndView pointMonitoringView(@PathVariable String gps){
+        ModelAndView mv = new ModelAndView();
+        String[] gpsString = gps.split("%");
+        String lat = gpsString[0];
+        String lng = gpsString[1];
+        List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
+
+        mv.addObject("locations", currentObserveList);
+        mv.addObject("time", getNowTime());
+        mv.addObject("lat", lat);
+        mv.addObject("lng", lng);
+
+        mv.setViewName("pointMonitor");
 
         return mv;
     }
