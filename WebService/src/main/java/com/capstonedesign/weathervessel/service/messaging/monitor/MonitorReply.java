@@ -7,6 +7,8 @@ import com.capstonedesign.weathervessel.service.messaging.Photo;
 import com.capstonedesign.weathervessel.service.messaging.Reply;
 import com.capstonedesign.weathervessel.service.natural_language_processing.NaturalLanguageProcessing;
 
+import java.net.URLEncoder;
+
 public class MonitorReply implements Reply {
 
     private final String label = "드론 위치 보기";
@@ -20,9 +22,10 @@ public class MonitorReply implements Reply {
                 + "\n위도 : " + latestObserve.getGps_y()
                 + "\n경도 : " + latestObserve.getGps_x()
                 + "\n입니다.";
+        String encodedGPS = URLEncoder.encode(String.valueOf(latestObserve.getGps_y()) + "," + String.valueOf(latestObserve.getGps_x()));
 
         return new Message(text
-                , new MessageButton("http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com:8090/pointMonitoring/" + String.valueOf(latestObserve.getGps_y()) + "-" + String.valueOf(latestObserve.getGps_x()) + "-0", label)
+                , new MessageButton("http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com:8090/pointMonitoring/" + encodedGPS, label)
                 , new Photo("http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com/Erlecopter.jpg"));
     }
 }

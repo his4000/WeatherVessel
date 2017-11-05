@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -97,15 +98,20 @@ public class WebViewController {
     @RequestMapping(value = "/pointMonitoring/{gps}")
     public ModelAndView pointMonitoringView(@PathVariable String gps){
         ModelAndView mv = new ModelAndView();
-        String[] gpsString = gps.split("-");
-        String lat = gpsString[0];
-        String lng = gpsString[1];
-        List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
+        try {
+            String decodedGPS = URLDecoder.decode(gps, "UTF-8");
+            String[] gpsString = decodedGPS.split(",");
+            String lat = gpsString[0];
+            String lng = gpsString[1];
+            List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
 
-        mv.addObject("locations", currentObserveList);
-        mv.addObject("time", getNowTime());
-        mv.addObject("lat", lat);
-        mv.addObject("lng", lng);
+            mv.addObject("locations", currentObserveList);
+            mv.addObject("time", getNowTime());
+            mv.addObject("lat", lat);
+            mv.addObject("lng", lng);
+        }catch (Exception e){
+            log.info("Exception occured in decoding");
+        }
 
         mv.setViewName("pointMonitor");
 
