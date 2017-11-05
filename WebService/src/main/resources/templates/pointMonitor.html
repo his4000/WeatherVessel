@@ -102,16 +102,14 @@
 </div>
 <script th:inline="javascript">
     var locations = [[${locations}]];
-    var lat = [[${lat}]];
-    var lng = [[${lng}]];
+    var master = [[${master}]];
     console.log(locations);
-    console.log(lat);
-    console.log(lng);
+    console.log(master);
     var markers = [];
     var map = new naver.maps.Map('map', {
         zoom: 10,
         mapTypeControl: true,
-        center: new naver.maps.Point(lng, lat)
+        center: new naver.maps.Point(master.gpx_x, master.gps_y)
     });
     $.ajax({
         type: "GET",

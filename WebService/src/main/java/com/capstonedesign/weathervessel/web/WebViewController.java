@@ -95,23 +95,16 @@ public class WebViewController {
         return mv;
     }
 
-    @RequestMapping(value = "/pointMonitoring/{gps}")
-    public ModelAndView pointMonitoringView(@PathVariable String gps){
+    @RequestMapping(value = "/pointMonitoring")
+    public ModelAndView pointMonitoringView(){
         ModelAndView mv = new ModelAndView();
-        try {
-            String decodedGPS = URLDecoder.decode(gps, "UTF-8");
-            String[] gpsString = decodedGPS.split(",");
-            String lat = gpsString[0];
-            String lng = gpsString[1];
-            List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
 
-            mv.addObject("locations", currentObserveList);
-            mv.addObject("time", getNowTime());
-            mv.addObject("lat", lat);
-            mv.addObject("lng", lng);
-        }catch (Exception e){
-            log.info("Exception occured in decoding");
-        }
+        List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
+        Observe masterDroneObserve = observeRepository.findObserveByDroneIdOrderByTimeDesc(droneRepository.findOne(1)).get(0);
+
+        mv.addObject("master", masterDroneObserve);
+        mv.addObject("locations", currentObserveList);
+        mv.addObject("time", getNowTime());
 
         mv.setViewName("pointMonitor");
 

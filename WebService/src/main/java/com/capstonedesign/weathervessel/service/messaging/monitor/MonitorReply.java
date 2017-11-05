@@ -22,10 +22,9 @@ public class MonitorReply implements Reply {
                 + "\n위도 : " + latestObserve.getGps_y()
                 + "\n경도 : " + latestObserve.getGps_x()
                 + "\n입니다.";
-        String encodedGPS = URLEncoder.encode(String.valueOf(latestObserve.getGps_y()) + "," + String.valueOf(latestObserve.getGps_x()));
 
         return new Message(text
-                , new MessageButton("http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com:8090/pointMonitoring/" + encodedGPS, label)
+                , new MessageButton("http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com:8090/pointMonitoring/", label)
                 , new Photo("http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com/Erlecopter.jpg"));
     }
 }
