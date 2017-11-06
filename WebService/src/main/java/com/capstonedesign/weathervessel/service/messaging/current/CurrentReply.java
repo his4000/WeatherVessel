@@ -33,7 +33,7 @@ public class CurrentReply implements Reply {
 
     private Message setReplyMessage(String address, ObserveRepository observeRepository, AddressRepository addressRepository){
         CurrentStatus currentStatus;
-        String url = "http://ec2-52-78-23-33.ap-northeast-2.compute.amazonaws.com:8090/currentView/" + address;
+        String url = "http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com:8090/currentView/" + address;
         List<Observe> observeList = observeRepository.findObserveByAddrIdOrderByTimeDesc(addressRepository.findAddressByAddrDongLike(address));
         if(observeList.size() == 0){
             currentStatus = new CurrentStatusNoData();
