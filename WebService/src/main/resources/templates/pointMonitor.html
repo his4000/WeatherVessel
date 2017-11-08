@@ -112,7 +112,7 @@
         center: new naver.maps.LatLng(master.gps_y, master.gps_x)
     });
     markers[0] = new naver.maps.Marker({
-        positon: new naver.maps.LatLng(master.gps_y, master.gps_x),
+        positon: new naver.maps.Point(master.gps_x, master.gps_y),
         map: map,
         clickable: true
     });
