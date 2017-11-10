@@ -11,17 +11,17 @@
 
 #define BUFF_SIZE 1024
 #define IPSIZE 20
-#define IP_ADDR "192.168.0.10"
-#define PORT 9293
+#define IP_ADDR "192.168.1.10"
+#define PORT 9299
 
-#define DELAY_TIME 10
+#define DELAY_TIME 5
 
-#define MAX_PM_10 75
-#define MIN_PM_10 45
-#define MAX_PM_25 33
-#define MIN_PM_25 18
+#define MAX_PM_10 60
+#define MIN_PM_10 20
+#define MAX_PM_25 30
+#define MIN_PM_25 10
 
-#define DUST_RANGE 15
+#define DUST_RANGE 20
 #define MOVE_RANGE 0.01
 
 float MAX_GPS_LAT;

@@ -11,9 +11,10 @@
 
 #define BUFF_SIZE 1024
 #define IPSIZE 20
-#define IP_ADDR "192.168.235.1"
+#define IP_ADDR "192.168.0.10"
+#define PORT 9293
 
-#define DELAY_TIME 10
+#define DELAY_TIME 5
 
 #define MAX_PM_10 75
 #define MIN_PM_10 45
@@ -21,13 +22,13 @@
 #define MIN_PM_25 18
 
 #define DUST_RANGE 15
-#define MOVE_RANGE 0.002
+#define MOVE_RANGE 0.01
 
 float MAX_GPS_LAT;
 float MAX_GPS_LNG;
 float MIN_GPS_LAT;
 float MIN_GPS_LNG;
-int PORT;
+int DRONE_ID;
 
 int generateRandomNumber(){
 	int ret;
@@ -37,7 +38,7 @@ int generateRandomNumber(){
 	return ret;
 }
 
-void sendData(float GPS_X, float GPS_Y)
+void sendData(int drone_id, float GPS_X, float GPS_Y)
 {
 	int sock;				/* Socket */
 	int server_addr_size;			/* Server address Size */
@@ -60,17 +61,23 @@ void sendData(float GPS_X, float GPS_Y)
 	server_addr.sin_port = htons(PORT);
 	server_addr.sin_addr.s_addr = inet_addr(IP_ADDR);
 
+	newResult.drone_id = drone_id;
 	newResult.dust_pm25 = MIN_PM_25 + randomVal;
 	newResult.dust_pm10 = MIN_PM_10 + (randomVal*2);
 	newResult.GPS_X = GPS_X;
 	newResult.GPS_Y = GPS_Y;
 
-	printf("GPS_X : %f\nGPS_Y : %f\n", newResult.GPS_X, newResult.GPS_Y);
-	printf("pm10 : %ld\npm2.5 : %ld\n", newResult.dust_pm10, newResult.dust_pm25);
+//	printf("GPS_X : %f\nGPS_Y : %f\n", newResult.GPS_X, newResult.GPS_Y);
+//	printf("pm10 : %ld\npm2.5 : %ld\n", newResult.dust_pm10, newResult.dust_pm25);
 	/* Send structure to the Server */
-	if(sendto(sock, (struct Result*)&newResult, (BUFF_SIZE+sizeof(newResult)),
-			0, (struct sockaddr*)&server_addr, sizeof(server_addr))<0)
+	int tempint = 0;
+	tempint = sendto(sock, (struct Result*)&newResult, (BUFF_SIZE+sizeof(newResult)),
+			0, (struct sockaddr*)&server_addr, sizeof(server_addr));
+	if(tempint == -1)
+	{
+		printf("Sent struct size %d\n", tempint);
 		printf("sendto() sent a different number of bytes than expected\n");
+	}	
 
 	close(sock);
 }
@@ -88,21 +95,22 @@ int isInRange(float gps_x, float gps_y){
 
 void moving(float* gps_x, float* gps_y){
 	int dir = rand()%4;
+	float mov_range = (((float)rand())/((float)RAND_MAX))*MOVE_RANGE;
 	float current_gps_x = *gps_x;
 	float current_gps_y = *gps_y;
 
 	switch(dir){
 		case 0 : //Move East
-			current_gps_x -= MOVE_RANGE;
+			current_gps_x -= mov_range;
 			break;
 		case 1 : //Move West
-			current_gps_x += MOVE_RANGE;
+			current_gps_x += mov_range;
 			break;
 		case 2 : //Move South
-			current_gps_y += MOVE_RANGE;
+			current_gps_y += mov_range;
 			break;
 		case 3 : //Move North
-			current_gps_y -= MOVE_RANGE;
+			current_gps_y -= mov_range;
 			break;
 		default : 
 			break;
@@ -115,7 +123,7 @@ void moving(float* gps_x, float* gps_y){
 }
 
 int initGlobalValues(char** argv){
-	sscanf(argv[1], "%d", &PORT);
+	sscanf(argv[1], "%d", &DRONE_ID);
 	sscanf(argv[2], "%f", &MIN_GPS_LAT);
 	sscanf(argv[3], "%f", &MIN_GPS_LNG);
 	sscanf(argv[4], "%f", &MAX_GPS_LAT);
@@ -138,16 +146,16 @@ int main(int argc, char** argv){
 	current_gps_x = MAX_GPS_LNG;
 	current_gps_y = MAX_GPS_LAT;
 
-	printf("Port number : %d\n", PORT);
+//	printf("Port number : %d\n", PORT);
 
 	while(1){
 		moving(&current_gps_x, &current_gps_y);
-		sendData(current_gps_x, current_gps_y);
+		sendData(DRONE_ID, current_gps_x, current_gps_y);
 
 		sleep(DELAY_TIME);
 	}
 
-	printf("Complete to send data\n");
+//	printf("Complete to send data\n");
 
 	return 0;
 }
