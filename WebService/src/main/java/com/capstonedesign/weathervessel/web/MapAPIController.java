@@ -2,6 +2,7 @@ package com.capstonedesign.weathervessel.web;
 
 import com.capstonedesign.weathervessel.domain.Address;
 import com.capstonedesign.weathervessel.domain.AddressRepository;
+import jdk.nashorn.internal.parser.JSONParser;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +65,41 @@ public class MapAPIController {
             return String.valueOf(ret.getAddrId());
     }
 
-    private String getLatLng(String address) {
+    /*private String getLatLng(String address) {
+        String KakaoRestAPIKey = "33c52df0720dedd62220d68badc057db";
+        try{
+            String addr = URLEncoder.encode(address, "UTF-8");
+            String apiURL = "https://dapi.kakao.com/v2/local/search/keyword.json?query="+address;
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", KakaoRestAPIKey);
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+            if(responseCode == 200){
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            }
+            else{
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while((inputLine = br.readLine()) != null)
+                response.append(inputLine);
+            br.close();
+            JSONObject jsonResponse = new JSONObject(response);
+            JSONObject document = (JSONObject) jsonResponse.getJSONArray("documents").get(0);
+            return gpsEncoding(document.getString("y"), document.getString("x"));
+        }catch (Exception e){
+            return "";
+        }
+    }
+
+    private String gpsEncoding(String lat, String lng){
+        return lng + "%2c" + lat;
+    }*/
+
+    /*private String getLatLng(String address) {
         try {
             String addr = URLEncoder.encode(address, "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/map/geocode?query=" + addr; //json
@@ -90,7 +125,7 @@ public class MapAPIController {
         } catch (Exception e) {
             return "";
         }
-    }
+    }*/
 
     private String getAddress(String gps) {
         try {

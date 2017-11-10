@@ -4,6 +4,7 @@
 
 #include"curlNaver.h"
 
+#define AWS_URL "http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com:8090/getAddressCode/"
 /*
 * This component needs to curl library.
 *
@@ -46,8 +47,10 @@ char* qURLencode(char* str){
 	unsigned char c;
 	int i, j;
 
-	if(str == NULL) return NULL;
-	fprintf(stderr, "parameter is empty");
+	if(str == NULL){ 
+		fprintf(stderr, "parameter is empty\n");
+		return NULL;
+	}
 	if((encstr = (char*)malloc((strlen(str)*3)+1)) == NULL)
 		return NULL;
 
@@ -75,10 +78,8 @@ void getAddress(char* buf, SENSOR_DATA* data){
 	CURLcode res;
 	CURL_RES_DATA resData;
 	struct curl_slist* list = NULL;
-	char default_url[255]
-		= "http://ec2-52-78-23-33.ap-northeast-2.compute.amazonaws.com:8090/getAddressCode/";
+	char default_url[255] = AWS_URL;
 	char gps_address[255];
-	//char encoded_gps[255];
 	char* encoded_gps;
 
 	initCurlResponseData(&resData);
@@ -111,6 +112,7 @@ void getAddress(char* buf, SENSOR_DATA* data){
 		}
 
 		free(resData.response);
+		free(encoded_gps);
 
 		curl_easy_cleanup(curl);
 	}

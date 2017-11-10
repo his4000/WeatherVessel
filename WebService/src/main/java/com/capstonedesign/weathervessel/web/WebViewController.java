@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -68,16 +69,29 @@ public class WebViewController {
     @RequestMapping(value = "/getToday", method = RequestMethod.GET)
     @ResponseBody
     public List<Observe> getToday(){
-        LocalDateTime localDateTime = LocalDateTime.of(2017, 10, 19, 14, 0, 0);
-        return observeRepository.findObserveByTimeGreaterThanEqual(localDateTime.minusHours(4));
+        return observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
+    }
+
+    private List<Observe> getLatestObserves(){
+        List<Drone> droneList = droneRepository.getAllBy();
+        List<Observe> latestObserveList = new ArrayList<>();
+
+        for(Drone drone : droneList){
+            List<Observe> tmpObserveList = observeRepository.findObserveByDroneIdOrderByTimeDesc(drone);
+            if(!tmpObserveList.isEmpty()) {
+                if(tmpObserveList.get(0).getTime().isAfter(LocalDateTime.now().minusHours(4)))
+                    latestObserveList.add(tmpObserveList.get(0));
+            }
+        }
+
+        return latestObserveList;
     }
 
     @RequestMapping(value = "/monitoring")
     public ModelAndView monitoringView(){
         ModelAndView mv = new ModelAndView();
-        //List<Drone> droneList = droneRepository.getAllBy();
-        List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
-
+        //List<Observe> currentObserveList = observeRepository.findObserveByTimeGreaterThanEqual(LocalDateTime.now().minusHours(4));
+        List<Observe> latestObserveList = getLatestObserves();
         /*currentObserveList = droneList.stream().map(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).get(0)).collect(toList());
         log.info(observeRepository.findObserveByDroneIdOrderByTimeDesc(droneList.get(0)).toString());
         log.info("/////////////////" + observeRepository.findObserveByDroneIdAndTimeGreaterThanEqualOrderByTimeDesc(droneList.get(0), LocalDateTime.now().minusHours(4)));
@@ -86,11 +100,27 @@ public class WebViewController {
                 .filter(drone -> observeRepository.findObserveByDroneIdOrderByTimeDesc(drone).size() > 0)
                 .map(drone -> observeRepository.findObserveByDroneIdAndTimeGreaterThanEqualOrderByTimeDesc(drone, LocalDateTime.now().minusHours(4)).get(0))
                 .collect(toList());*/
-        log.info(currentObserveList.toString());
+        //log.info(currentObserveList.toString());
 
-        mv.addObject("locations", currentObserveList);
+        mv.addObject("locations", latestObserveList);
         mv.addObject("time", getNowTime());
         mv.setViewName("monitor");
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/pointMonitoring")
+    public ModelAndView pointMonitoringView(){
+        ModelAndView mv = new ModelAndView();
+
+        List<Observe> currentObserveList = getLatestObserves();
+        Observe masterDroneObserve = observeRepository.findObserveByDroneIdOrderByTimeDesc(droneRepository.findOne(1)).get(0);
+
+        mv.addObject("master", masterDroneObserve);
+        mv.addObject("locations", currentObserveList);
+        mv.addObject("time", getNowTime());
+
+        mv.setViewName("pointMonitor");
 
         return mv;
     }

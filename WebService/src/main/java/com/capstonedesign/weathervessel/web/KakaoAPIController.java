@@ -1,10 +1,13 @@
 package com.capstonedesign.weathervessel.web;
 
 import com.capstonedesign.weathervessel.domain.AddressRepository;
+import com.capstonedesign.weathervessel.domain.DroneRepository;
 import com.capstonedesign.weathervessel.domain.Observe;
 import com.capstonedesign.weathervessel.domain.ObserveRepository;
 import com.capstonedesign.weathervessel.service.messaging.*;
 import com.capstonedesign.weathervessel.service.messaging.current.CurrentReply;
+import com.capstonedesign.weathervessel.service.messaging.greeting.GreetingReply;
+import com.capstonedesign.weathervessel.service.messaging.monitor.MonitorReply;
 import com.capstonedesign.weathervessel.service.natural_language_processing.NaturalLanguageProcessing;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -32,6 +35,8 @@ public class KakaoAPIController {
     ObserveRepository observeRepository;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    DroneRepository droneRepository;
 
     @RequestMapping("/")
     public String hello(){
@@ -51,7 +56,7 @@ public class KakaoAPIController {
     @RequestMapping(value = "/message", method = RequestMethod.POST)
     public ResponseMessage message(@RequestBody RequestMessage requestMessage){
         ResponseMessage responseMessage = new ResponseMessage();
-        String result = "";
+        String category = "";
         String content = requestMessage.getContent();
         log.info("make text" + content);
 
@@ -66,36 +71,49 @@ public class KakaoAPIController {
         }
         else {
             try {
-                result = classifying(content);
+                category = classifying(content);
             } catch (Exception e) {
                 log.info("Exception occurred in Classifying");
             }
         }
 
-        if(result.equals("")) {
+        /*if(category.equals("")) {
             responseMessage.setMessage(new Message(
                     "의도를 잘 파악하지 못했어요(훌쩍)(훌쩍)\n\n"
                     + "좀 더 상세히 말씀 해주시겠어요?(하하)(하하)"
             ));
             log.info("No Answer");
         }
-        else {
-            Reply reply;
-            if(result.equalsIgnoreCase("current")) {
-                reply = new CurrentReply();
-                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository));
-            }
+        else {*/
+            Reply reply = getReply(category);
+            if(reply == null)
+                responseMessage.setMessage(new Message(
+                        "의도를 잘 파악하지 못했어요(훌쩍)(훌쩍)\n\n"
+                                + "좀 더 상세히 말씀 해주시겠어요?(하하)(하하)"
+                ));
             else
-                responseMessage.setMessage(new Message(result));
-            log.info("Answer : " + result);
-        }
+                responseMessage.setMessage(reply.getReplyMessage(content, naturalLanguageProcessing, observeRepository, addressRepository, droneRepository));
+
+            log.info("Answer : " + category);
+        //}
 
         return responseMessage;
     }
 
+    private Reply getReply(String category){
+        if(category.equalsIgnoreCase("greeting"))
+            return new GreetingReply();
+        else if(category.equalsIgnoreCase("current"))
+            return new CurrentReply();
+        else if(category.equalsIgnoreCase("monitor"))
+            return new MonitorReply();
+        else
+            return null;
+    }
+
     private String classifying(String encodedContent) throws Exception{
         String textToken = URLEncoder.encode(encodedContent, "UTF-8");
-        String learningServerURL = "http://ec2-52-78-148-146.ap-northeast-2.compute.amazonaws.com:8090/getText";
+        String learningServerURL = "http://localhost:8091/getText";
         String ret;
         URL url = new URL(learningServerURL);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();

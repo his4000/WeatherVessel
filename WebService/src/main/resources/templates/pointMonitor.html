@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Current Status</title>
+    <title>Monitor</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
@@ -75,7 +75,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-<div class="container-fluid" style="background: #1DD15B;color: white">
+<div class="container-fluid bg-primary">
     <div class="row align-items-center">
         <div class="col">
             <div class="row">
@@ -83,7 +83,7 @@
             </div>
             <div class="row align-items-center">
                 <div class="col" th:align="center">
-                    <h1 class="display-4 text-center" style="font-weight: bold;font-size: 300%" th:text="${address}"></h1>
+                    <h1 class="display-4 text-center" style="font-weight: bold;font-size: 300%">드론 위치 지도</h1>
                 </div>
             </div>
             <div class="row align-items-center">
@@ -95,83 +95,46 @@
     </div>
     <div class="row align-items-center">
         <div class="col" th:align="center">
-            <div id="status" class="material-icons" style="font-size:3000%;">sentiment_satisfied</div>
+            <div id="map" style="width: 100%; height: 600px;"></div>
         </div>
     </div>
-    <div class="row align-items-center">
-        <div class="col-3"></div>
-        <div class="col" th:align="center">
-            <h1 class="display-2 text-center" style="font-weight: bold;font-size: 450%;">좋  음</h1>
-        </div>
-        <div class="col-3"></div>
-    </div>
-    <div class="row align-items-center">
-        <div class="col-1"></div>
-        <div class="col" th:align="center">
-            <h1 class="diaplay-4 text-center" style="font-size: 200%;">활동하기 좋은 날씨에요~</h1>
-        </div>
-        <div class="col-1"></div>
-    </div>
-    <div class="row align-items-center" style="background: #3F9C13;">
-        <div class="col">
-            <h1 class="display-4" style="font-size: 200%;font-weight:bold;">지 도</h1>
-        </div>
-    </div>
-    <div class="row">
-        <h1 class="display-4"> </h1>
-    </div>
-    <div id="map" style="width: 100%; height: 300px;"></div>
-    <div class="row align-items-center" style="background: #3F9C13;">
-        <div class="col">
-            <h1 class="display-4" style="font-size: 200%;font-weight:bold;">상세 정보</h1>
-        </div>
-    </div>
-    <div class="row align-items-center">
-        <div class="col">
-            <h1 class="display-4" style="font-size: 200%;">
-                <span>측정 시간 : </span>
-                <span th:text="${observe.time}"></span>
-            </h1>
-        </div>
-    </div>
-    <div class="row align-items-center">
-        <div class="col">
-            <h1 class="display-4" style="font-size: 200%;">
-                <span>초미세먼지 : </span>
-                <span th:text="${observe.pm25}"></span>
-            </h1>
-        </div>
-    </div>
-    <div class="row align-items-center">
-        <div class="col">
-            <h1 class="display-4" style="font-size: 200%;">
-                <span>미세먼지 : </span>
-                <span th:text="${observe.pm10}"></span>
-            </h1>
-        </div>
-    </div>
-    <div class="row">
-        <h1 class="display-4"> </h1>
-    </div>
+
 </div>
 <script th:inline="javascript">
-    var point = new naver.maps.Point([[${observe.gps_x}]], [[${observe.gps_y}]]);
+    var locations = [[${locations}]];
+    var master = [[${master}]];
+    console.log(locations);
+    console.log(master);
+    var markers = [];
     var map = new naver.maps.Map('map', {
         zoom: 10,
         mapTypeControl: true,
-        center: point
+        center: new naver.maps.LatLng(master.gps_y, master.gps_x)
     });
-    var marker = new naver.maps.Marker({
-        position: point,
+    markers[0] = new naver.maps.Marker({
+        positon: new naver.maps.Point(master.gps_x, master.gps_y),
         map: map,
         clickable: true
     });
-    var infoWindow = new naver.maps.InfoWindow({
-        content: [[${address}]],
-        backgroundColor: '#FFFEBD',
-        borderColor: '#A29B92',
-        borderWidth: 2,
-        anchorColor: '#FFFEBD'
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/getLoc",
+        success: function (data) {
+            /*<![CDATA[*/
+            for(i=1; i <= locations.length; i++) {
+                /*]]>*/
+                console.log(locations[i]);
+                var loc = locations[i];
+                console.log(loc);
+                markers[i] = new naver.maps.Marker({
+                    position: new naver.maps.Point(loc.gps_x, loc.gps_y),
+                    map: map,
+                    clickable: true
+                });
+            }
+            console.log('success to get location list');
+        }
     });
     var heatVal = [];
     $.ajax({
@@ -179,6 +142,7 @@
         dataType: "json",
         url: "/getToday",
         success: function (data) {
+            console.log('heatmap data received');
             console.log(data);
             /*<![CDATA[*/
             for(i=0; i < data.length; i++) {
@@ -193,16 +157,33 @@
                 map: map,
                 data: heatVal,
                 opacity: 0.4,
-                radius: 40
+                radius: 12
             });
         }
     });
-
-    /*var heaMap = new naver.maps.visualization.HeatMap({
-        map: map,
-        data: heatVal
-    });*/
-    console.log('end to make heatmap');
+    //function refreshLoc(){
+       // location.reload();
+        /*$.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/getLoc",
+            success: function (data) {*/
+                /*<![CDATA[*/
+                //for(i=0; i < locations.length; i++) {
+                    /*]]>*/
+                    /*console.log(locations[i]);
+                    var loc = locations[i];
+                    console.log(loc);
+                    markers[i] = new naver.maps.Marker({
+                        position: new naver.maps.Point(loc.gps_x, loc.gps_y),
+                        map: map,
+                        clickable: true
+                    });
+                }
+                console.log('success to get location list');
+            }
+        });*/
+    //}
 </script>
 </body>
 </html>
