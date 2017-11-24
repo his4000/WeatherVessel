@@ -27,8 +27,8 @@ public class MapAPIController {
 
     @Autowired
     AddressRepository addressRepository;
-    private String clientId = "eNueqceuff0oFPhe5uZD";  //Naver map api ID
-    private String clientSecret = "sq1flv6Kxt";  //Naver map api secret
+    private String clientId = [NAVER_API_ID];  //Naver map api ID
+    private String clientSecret = [NAVER_API_SECRET];  //Naver map api secret
 
     @RequestMapping(value = "{gps}", method = RequestMethod.GET)
     public String reverseGeocode(@PathVariable String gps) {
