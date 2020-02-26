@@ -4,7 +4,7 @@
 
 #include"curlNaver.h"
 
-#define AWS_URL "http://ec2-13-124-179-202.ap-northeast-2.compute.amazonaws.com:8090/getAddressCode/"
+#define AWS_URL "http://server_url" // blind server URL. 
 /*
 * This component needs to curl library.
 *
